@@ -8,7 +8,7 @@ use File;
 trait FileUpload {
     public function uploadFile(UploadedFile $file, string $directory = 'uploads') : string {
         $filename = 'educore_'.uniqid().'.'.$file->getClientOriginalExtension();
-        $file->move(public_path($directory), $filename);
+        $file->storeAs($directory, $filename, 'public');
 
         return '/'.$directory.'/'.$filename;
     }
