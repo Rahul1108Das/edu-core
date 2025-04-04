@@ -9,6 +9,10 @@ var notyf = new Notyf({
 const csrf_token = $('meta[name=csrf_token]').attr('content');
 var delete_url = null;
 
+$(function() {
+    $('.select2').select2();
+});
+
 $('.delete-item').on('click', function(e) {
     e.preventDefault();
 
@@ -18,7 +22,7 @@ $('.delete-item').on('click', function(e) {
     delete_url = url;
 
     $('#modal-danger').modal('show');
-})
+});
 
 $('.delete-confirm').on('click', function(e) {
     e.preventDefault();
@@ -43,4 +47,4 @@ $('.delete-confirm').on('click', function(e) {
             $('.delete-confirm').text('Delete');
         }
     })
-})
+});

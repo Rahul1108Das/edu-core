@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="base_url" content="{{ url('/') }}">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
+    @stack('meta')
     <title>EduCore - Online Courses & Education HTML Template</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/all.min.css') }}">
@@ -23,11 +26,17 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/sticky_menu.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/jquery-ui.min.css') }}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
     <link rel=" stylesheet" href="{{ asset('frontend/assets/css/spacing.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}">
-    @vite(['resources/css/frontend.css'])
+    @vite(['resources/css/frontend.css', 'resources/js/frontend/frontend.js'])
+
+    <!--dynamic js-->
+    @stack('header_scripts')
 </head>
 
 <body class="home_3">
@@ -41,7 +50,7 @@
     </div>
     <!--============ PRELOADER START ===========-->
 
-    
+
     <!--===========================
         HEADER START
     ============================-->
@@ -53,6 +62,25 @@
     ============================-->
 
     @yield('content')
+
+    <!-- Modal -->
+    <div class="modal fade" id="dynamic-modal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content dynamic-modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!--===========================
@@ -113,11 +141,34 @@
     <!--Video player js-->
     <script src="{{ asset('frontend/assets/js/video_player.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/video_player_youtube.js') }}"></script>
+
     <!--wow js-->
     <script src="{{ asset('frontend/assets/js/wow.min.js') }}"></script>
 
+    <script src="{{ asset('frontend/assets/js/jquery-ui.min.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!--main/custom js-->
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+
+    @stack('scripts')
+
+    <script>
+        var notyf = new Notyf({
+            duration: 5000,
+            dismissible: true
+        });
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                notyf.error("{{ $error }}")
+            @endforeach
+        @endif
+    </script>
 
 </body>
 

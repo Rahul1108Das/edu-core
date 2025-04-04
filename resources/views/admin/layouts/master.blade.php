@@ -5,11 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="base_url" content="{{ url('/') }}">
     <meta name="csrf_token" content="{{ csrf_token() }}">
     <title>Dashboard</title>
     <!-- Plugin file for notyf css js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/iconfont/tabler-icons.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- CSS files -->
     <link href="{{ asset('admin/assets/dist/css/tabler.min.css?1692870487') }}" rel="stylesheet" />
     <link href="{{ asset('admin/assets/dist/css/demo.min.css?1692870487') }}" rel="stylesheet" />
@@ -24,8 +28,8 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
-    @vite(['resources/js/admin/admin.js'])
-    @vite(['resources/css/admin.css'])
+    @vite(['resources/js/admin/admin.js', 'resources/css/admin.css'])
+    @stack('header_scripts')
 </head>
 
 <body>
@@ -88,11 +92,40 @@
         </div>
     </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="dynamic-modal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content dynamic-modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- Libs JS -->
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+    <script src="{{ asset('frontend/assets/js/jquery-ui.min.js') }}" defer></script>
+
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
+
     <!-- Tabler Core -->
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
+
+    @stack('scripts')
+
     <script>
         // @formatter:off
         document.addEventListener("DOMContentLoaded", function() {

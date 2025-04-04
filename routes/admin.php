@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\CourseCategoryController;
+use App\Http\Controllers\Admin\CourseContentController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubCategoryController;
@@ -17,7 +19,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(["middleware" => "guest:admin","prefix" => "admin","as" => "admin."], function () {
+Route::group(["middleware" => "guest:admin", "prefix" => "admin", "as" => "admin."], function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
@@ -37,7 +39,7 @@ Route::group(["middleware" => "guest:admin","prefix" => "admin","as" => "admin."
         ->name('password.store');
 });
 
-Route::group(["middleware" => "auth:admin","prefix" => "admin","as" => "admin."], function () {
+Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin."], function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
@@ -48,7 +50,7 @@ Route::group(["middleware" => "auth:admin","prefix" => "admin","as" => "admin."]
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
- 
+
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');
 
@@ -74,11 +76,42 @@ Route::group(["middleware" => "auth:admin","prefix" => "admin","as" => "admin."]
 
     // Course categories routes
     Route::resource('course-categories', CourseCategoryController::class);
-    Route::get('/{course_category}/sub-categories', [CourseSubCategoryController::class , 'index'])->name('course-sub-categories.index');
-    Route::get('/{course_category}/sub-categories/create', [CourseSubCategoryController::class , 'create'])->name('course-sub-categories.create');
-    Route::post('/{course_category}/sub-categories', [CourseSubCategoryController::class , 'store'])->name('course-sub-categories.store');
-    Route::get('/{course_category}/sub-categories/{course_sub_category}/edit', [CourseSubCategoryController::class , 'edit'])->name('course-sub-categories.edit');
-    Route::put('/{course_category}/sub-categories/{course_sub_category}', [CourseSubCategoryController::class , 'update'])->name('course-sub-categories.update');
-    Route::delete('/{course_category}/sub-categories/{course_sub_category}', [CourseSubCategoryController::class , 'destroy'])->name('course-sub-categories.destroy');
-});
+    Route::get('/{course_category}/sub-categories', [CourseSubCategoryController::class, 'index'])->name('course-sub-categories.index');
+    Route::get('/{course_category}/sub-categories/create', [CourseSubCategoryController::class, 'create'])->name('course-sub-categories.create');
+    Route::post('/{course_category}/sub-categories', [CourseSubCategoryController::class, 'store'])->name('course-sub-categories.store');
+    Route::get('/{course_category}/sub-categories/{course_sub_category}/edit', [CourseSubCategoryController::class, 'edit'])->name('course-sub-categories.edit');
+    Route::put('/{course_category}/sub-categories/{course_sub_category}', [CourseSubCategoryController::class, 'update'])->name('course-sub-categories.update');
+    Route::delete('/{course_category}/sub-categories/{course_sub_category}', [CourseSubCategoryController::class, 'destroy'])->name('course-sub-categories.destroy');
 
+    //Course routes
+    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+    Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
+    Route::post('/courses/create', [CourseController::class, 'storeBasicInfo'])->name('courses.store-basic-info');
+    Route::put('/courses/{course}/update-approval', [CourseController::class, 'updateApproval'])->name('courses.update-approval');
+    Route::get('/courses/{id}/edit', [CourseController::class, 'edit'])->name('courses.edit');
+    Route::post('/courses/update', [CourseController::class, 'update'])->name('courses.update');
+
+    Route::get('/course-content/{course}/create-chapter', [CourseContentController::class, 'createChapterModal'])->name('course-content.create-chapter');
+    Route::post('/course-content/{course}/create-chapter', [CourseContentController::class, 'storeChapter'])->name('course-content.store-chapter');
+    Route::get('/course-content/{chapter}/edit-chapter', [CourseContentController::class, 'editChapterModal'])->name('course-content.edit-chapter');
+    Route::post('/course-content/{chapter}/update-chapter', [CourseContentController::class, 'updateChapterModal'])->name('course-content.update-chapter');
+    Route::delete('/course-content/{chapter}/chapter', [CourseContentController::class, 'destroyChapter'])->name('course-content.destroy-chapter');
+
+    Route::get('/course-content/create-lesson', [CourseContentController::class, 'createLesson'])->name('course-content.create-lesson');
+    Route::post('/course-content/create-lesson', [CourseContentController::class, 'storeLesson'])->name('course-content.store-lesson');
+    Route::get('/course-content/edit-lesson', [CourseContentController::class, 'editLesson'])->name('course-content.edit-lesson');
+    Route::post('/course-content/{id}/update-lesson', [CourseContentController::class, 'updateLesson'])->name('course-content.update-lesson');
+
+    Route::delete('/course-content/{id}/lesson', [CourseContentController::class, 'destroyLesson'])->name('course-content.destroy-lesson');
+
+    Route::post('/course-chapter/{chapter}/sort-lesson', [CourseContentController::class, 'sortLesson'])->name('course-chapter.sort-lesson');
+
+    Route::get('/course-content/{course}/sort-chapter', [CourseContentController::class, 'sortChapter'])->name('course-content.sort-chapter');
+
+    Route::post('/course-content/{course}/sort-chapter', [CourseContentController::class, 'updateSortChapter'])->name('course-content.update-sort-chapter');
+
+    //lfm routes
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth:admin']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
+});
