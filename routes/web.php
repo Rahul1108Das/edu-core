@@ -3,13 +3,18 @@
 // use App\Http\Controllers\CourseContentController;
 
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\CourseContentController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\CoursePageController;
+use App\Http\Controllers\Frontend\EnrolledCourseController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
+use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\StudentDashboardController;
+use App\Http\Controllers\Frontend\WithdrawController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -28,6 +33,22 @@ Route::get('/courses/{slug}', [CoursePageController::class, 'show'])->name('cour
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/add-to-cart/{course}', [CartController::class, 'addToCart'])->name('add-to-cart');
 Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('remove-from-cart');
+
+Route::get('/checkout', CheckoutController::class)->name('checkout.index');
+
+Route::get('/paypal/payment', [PaymentController::class, 'payWithPaypal'])->name('paypal.payment');
+Route::get('/paypal/success', [PaymentController::class, 'paypalSuccess'])->name('paypal.success');
+Route::get('/paypal/cancel', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
+
+Route::get('/stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
+Route::get('/stripe/success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
+Route::get('/stripe/cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
+
+Route::get('/razorpay/redirect', [PaymentController::class, 'razorpayRedirect'])->name('razorpay.redirect');
+Route::post('/razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
+
+Route::get('/order-success', [PaymentController::class, 'orderSuccess'])->name('order.success');
+Route::get('/order-failed', [PaymentController::class, 'orderFailed'])->name('order.failed');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -48,6 +69,16 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'p
     Route::post('/profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
     Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::post('/profile/update-social', [ProfileController::class, 'updateSocial'])->name('profile.update-social');
+
+    Route::get('/enrolled-courses', [EnrolledCourseController::class, 'index'])->name('enrolled-courses.index');
+    Route::get('/course-player/{slug}', [EnrolledCourseController::class, 'playerIndex'])->name('course-player.index');
+    Route::get('/get-lesson-content', [EnrolledCourseController::class, 'getLessonContent'])->name('get-lesson-content');
+
+    Route::post('/update-watch-history', [EnrolledCourseController::class, 'updateWatchHistory'])->name('update-watch-history');
+    Route::post('/update-lesson-completion', [EnrolledCourseController::class, 'updateLessonCompletion'])->name('update-lesson-completion');
+
+    Route::get('/file-download/{id}', [EnrolledCourseController::class, 'fileDownload'])->name('file-download');
+
 });
 
 
@@ -64,6 +95,7 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
     Route::post('/profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
     Route::post('/profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::post('/profile/update-social', [ProfileController::class, 'updateSocial'])->name('profile.update-social');
+    Route::post('/profile/update-gateway-info', [ProfileController::class, 'updateGatewayInfo'])->name('profile.update-gateway-info');
 
     //Course routes
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
@@ -91,6 +123,11 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:instructor'],
 
     Route::post('/course-content/{course}/sort-chapter', [CourseContentController::class, 'updateSortChapter'])->name('course-content.update-sort-chapter');
 
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+
+    Route::get('/withdrawals', [WithdrawController::class, 'index'])->name('withdraw.index');
+    Route::get('/withdrawals/request-payout', [WithdrawController::class, 'requestPayoutIndex'])->name('withdraw.request-payout');
+    Route::post('/withdrawals/request-payout', [WithdrawController::class, 'requestPayout'])->name('withdraw.request-payout.create');
     //lfm routes
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();

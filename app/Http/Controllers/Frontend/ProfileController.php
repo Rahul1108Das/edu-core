@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\PasswordUpdateRequest;
 use App\Http\Requests\Frontend\ProfileUpdateRequest;
 use App\Http\Requests\Frontend\SocialUpdateRequest;
+use App\Models\InstructorPayoutInformation;
+use App\Models\PayoutGateway;
 use App\Models\User;
 use App\Traits\FileUpload;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -24,7 +26,8 @@ class ProfileController extends Controller
 
     function instructorIndex(): View
     {
-        return view('frontend.instructor-dashboard.profile.index');
+        $gateways = PayoutGateway::where('status', 1)->get();
+        return view('frontend.instructor-dashboard.profile.index', compact('gateways'));
     }
 
     function profileUpdate(ProfileUpdateRequest $request): RedirectResponse
@@ -73,6 +76,27 @@ class ProfileController extends Controller
         $user->save();
 
         notyf()->success('Socials Updated successfully!!!');
+
+        return redirect()->back();
+    }
+
+    function updateGatewayInfo(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'gateway' => 'required', 
+            'information' => 'required|string|max:2000', 
+        ]);
+
+        InstructorPayoutInformation::updateOrCreate(
+            [
+                'instructor_id' => user()->id
+            ],
+            [
+                'gateway' => $request->gateway,
+                'information' => $request->information,
+            ]);
+
+        notyf()->success('Gateway info updated successfully!!!');
 
         return redirect()->back();
     }

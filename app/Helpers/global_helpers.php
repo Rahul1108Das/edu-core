@@ -25,6 +25,12 @@ if(!function_exists('adminUser')) {
     }
 }
 
+if(!function_exists('cartCount')) {
+    function cartCount() {
+        return Cart::where('user_id', user()?->id)->count();
+    }
+}
+
 if(!function_exists('cartTotal')) {
     function cartTotal() {
         $total = 0;
@@ -40,5 +46,11 @@ if(!function_exists('cartTotal')) {
         }
     
     return $total;
+    }
+}
+
+if(!function_exists('calculateCommission')) {
+    function calculateCommission($amount, $commission) {
+        return $amount == 0 ? 0 : ($amount * $commission) / 100;
     }
 }

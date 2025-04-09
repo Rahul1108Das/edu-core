@@ -2,8 +2,8 @@
 
 @section('content')
     <!--===========================
-                                BREADCRUMB START
-                            ============================-->
+        BREADCRUMB START
+    ============================-->
     <section class="wsus__breadcrumb" style="background: url(images/breadcrumb_bg.jpg);">
         <div class="wsus__breadcrumb_overlay">
             <div class="container">
@@ -22,12 +22,12 @@
         </div>
     </section>
     <!--===========================
-            BREADCRUMB END
+        BREADCRUMB END
     ============================-->
 
 
     <!--===========================
-            DASHBOARD OVERVIEW START
+        DASHBOARD OVERVIEW START
     ============================-->
     <section class="wsus__dashboard mt_90 xs_mt_70 pb_120 xs_pb_100">
         <div class="container">
@@ -110,6 +110,50 @@
                             </div>
                         </form>
                     </div>
+
+                    <div class="wsus__dashboard_contant">
+                        <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
+                            <div class="wsus__dashboard_heading">
+                                <h5>Payout Settings</h5>
+                                <p>Put your payout information here.</p>
+                            </div>
+                        </div>
+
+                        <form action="{{ route('instructor.profile.update-gateway-info') }}" method="POST"
+                            class="wsus__dashboard_profile_update">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wsus__dashboard_profile_update_info">
+                                        @foreach ($gateways as $gateway)
+                                            <span class="d-none gateway-{{ $gateway->id }}">{!! $gateway->description !!}</span>
+                                        @endforeach
+                                        <label>Gateway</label>
+                                        <select class="form-control gateway" name="gateway" id="">
+                                            <option value="">Select</option>
+                                            @foreach ($gateways as $gateway)
+                                                <option @selected(user()?->gatewayInfo?->gateway === $gateway->name) value="{{ $gateway->name }}" data-id="{{ $gateway->id }}">{{ $gateway->name }}</option>                                               
+                                            @endforeach
+                                        </select>
+                                        <x-input-error :messages="$errors->get('gateway')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="wsus__dashboard_profile_update_info">
+                                        <label>Gateway Information</label>
+                                        <textarea name="information" class="form-control gateway_description" id="" style="height: 300px" >{!! user()?->gatewayInfo?->information !!}</textarea>
+                                        <x-input-error :messages="$errors->get('information')" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="wsus__dashboard_profile_update_btn">
+                                        <button type="submit" class="common_btn">Update Information</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                     <div class="wsus__dashboard_contant">
                         <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
                             <div class="wsus__dashboard_heading">
@@ -154,6 +198,7 @@
                             </div>
                         </form>
                     </div>
+                    
                     <div class="wsus__dashboard_contant">
                         <div class="wsus__dashboard_contant_top d-flex flex-wrap justify-content-between">
                             <div class="wsus__dashboard_heading">
@@ -214,6 +259,18 @@
         </div>
     </section>
     <!--===========================
-                                DASHBOARD OVERVIEW END
-                            ============================-->
+        DASHBOARD OVERVIEW END
+    ============================-->
 @endsection
+
+@push('scripts')
+        <script>
+            $(function() {
+                $('.gateway').on('change', function() {
+                    let id = $(this).find(':selected').data('id');
+
+                    $('.gateway_description').attr('placeholder', $('.gateway-'+id).html());
+                })
+            })
+        </script>
+@endpush

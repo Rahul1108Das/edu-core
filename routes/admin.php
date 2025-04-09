@@ -17,6 +17,11 @@ use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InstructorRequestController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PaymentSettingController;
+use App\Http\Controllers\Admin\PayoutGatewayController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\WithdrawRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => "guest:admin", "prefix" => "admin", "as" => "admin."], function () {
@@ -109,6 +114,26 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::get('/course-content/{course}/sort-chapter', [CourseContentController::class, 'sortChapter'])->name('course-content.sort-chapter');
 
     Route::post('/course-content/{course}/sort-chapter', [CourseContentController::class, 'updateSortChapter'])->name('course-content.update-sort-chapter');
+
+    Route::get('/payment-setting', [PaymentSettingController::class, 'index'])->name('payment-setting.index');
+    Route::post('/paypal-setting', [PaymentSettingController::class, 'paypalSetting'])->name('paypal-setting.update');
+    Route::post('/stripe-setting', [PaymentSettingController::class, 'stripeSetting'])->name('stripe-setting.update');
+    Route::post('/razorpay-setting', [PaymentSettingController::class, 'razorpaySetting'])->name('razorpay-setting.update');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('/general-settings', [SettingController::class, 'updateGeneralSettings'])->name('general-settings.update');
+
+    Route::get('/commission-settings', [SettingController::class, 'commissionSettingIndex'])->name('commission-settings.index');
+    Route::post('/commission-settings', [SettingController::class, 'updateCommissionSetting'])->name('commission-settings.update');
+
+    Route::resource('/payout-gateway', PayoutGatewayController::class);
+
+    Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-request.index');
+    Route::get('/withdraw-requests/{withdraw}/details', [WithdrawRequestController::class, 'show'])->name('withdraw-request.show');
+    Route::post('/withdraw-requests/{withdraw}/status', [WithdrawRequestController::class, 'updateStatus'])->name('withdraw-request.status.update');
 
     //lfm routes
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth:admin']], function () {

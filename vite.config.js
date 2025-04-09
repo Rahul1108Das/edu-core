@@ -12,6 +12,7 @@ export default defineConfig({
                     'resources/js/admin/admin.js',
                     'resources/js/frontend/course.js',
                     'resources/js/frontend/frontend.js',
+                    'resources/js/frontend/player.js',
                     'resources/js/admin/course.js'
                 ],
             refresh: true,
