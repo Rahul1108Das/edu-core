@@ -30,4 +30,12 @@ class Course extends Model
     function chapters() : HasMany {
         return $this->hasMany(CourseChapter::class, 'course_id', 'id');
     }
+
+    function lessons() : HasMany {
+        return $this->hasMany(CourseChapterLesson::class, 'course_id', 'id');
+    }
+
+    function reviews() : HasMany {
+        return $this->hasMany(Review::class, 'course_id', 'id');
+    }
 }

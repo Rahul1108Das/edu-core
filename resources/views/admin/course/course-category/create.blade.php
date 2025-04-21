@@ -23,16 +23,16 @@
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div> --}}
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <x-input-file-block name="image" placeholder="Input image" />
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <x-input-block name="icon" placeholder="Enter icon class name">
                                     <x-slot name="hint">
                                         <small class="hint">You can get icon classes from <a target="_blank" href="https://tabler.io/icons">https://tabler.io/icons</a></small>
                                     </x-slot>
                                 </x-input-block>
-                            </div>
+                            </div> --}}
                             <div class="col-md-12">
                                 <x-input-block name="name" placeholder="Enter category name" />
                             </div>

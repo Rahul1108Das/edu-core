@@ -91,7 +91,7 @@ class CourseLevelController extends Controller
             notyf()->success('Deleted Successfully!');
             return response(['message' => 'Deleted Successfully!'], 200);
         }catch(Exception $e) {
-            // logger("Course Language Error >> ".$e);
+            // logger("Course Level Error >> ".$e);
             return response(['message' => 'Something went wrong!'], 500);
         }
     }

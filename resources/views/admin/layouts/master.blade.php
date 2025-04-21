@@ -28,6 +28,7 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
+    @stack('styles')
     @vite(['resources/js/admin/admin.js', 'resources/css/admin.css'])
     @stack('header_scripts')
 </head>
@@ -115,6 +116,8 @@
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
     <script src="{{ asset('frontend/assets/js/jquery-ui.min.js') }}" defer></script>
+
+    <script src="{{ asset('admin/assets/dist/libs/tinymce/tinymce.min.js') }}" defer></script>
 
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js" defer></script>
 

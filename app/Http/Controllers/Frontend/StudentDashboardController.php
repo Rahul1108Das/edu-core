@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Review;
 use App\Models\User;
 use App\Traits\FileUpload;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,16 +15,19 @@ class StudentDashboardController extends Controller
 {
     use FileUpload;
 
-    function index() : View {
+    function index(): View
+    {
         return view('frontend.student-dashboard.index');
     }
 
-    function becomeInstructor() : View {
-        if(auth()->user()->role === 'instructor') abort(404);
+    function becomeInstructor(): View
+    {
+        if (auth()->user()->role === 'instructor') abort(404);
         return view('frontend.student-dashboard.become-instructor.index');
     }
 
-    function becomeInstructorUpdate(Request $request, User $user) : RedirectResponse {
+    function becomeInstructorUpdate(Request $request, User $user): RedirectResponse
+    {
         $request->validate(['document' => ['required', 'mimes:pdf,doc,docx,jpg,png', 'max:12000']]);
         $filePath = $this->uploadFile($request->file('document'));
         $user->update([
@@ -31,5 +36,25 @@ class StudentDashboardController extends Controller
         ]);
 
         return redirect()->route('student.dashboard');
+    }
+
+    function review(): View
+    {
+        $reviews = Review::where('user_id', user()->id)->paginate(10);
+        return view('frontend.student-dashboard.review.index', compact('reviews'));
+    }
+
+    function reviewDestroy(string $id)
+    {
+        try {
+            $review = Review::where('id', $id)->where('user_id', user()->id)->firstOrFail();
+            $review->delete();
+            notyf()->success('Deleted Successfully!');
+            return response(['message' => 'Deleted Successfully!'], 200);
+        } catch (Exception $e) {
+        }
+        // logger("Review Error >> " . $e);
+        notyf()->error('Something went wrong!');
+        return response(['message' => 'Something went wrong!'], 500);
     }
 }

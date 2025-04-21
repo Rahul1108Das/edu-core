@@ -131,4 +131,40 @@ input, select, textarea {
     margin-top: 5px;
     position: relative;
 }
-    
+
+.certificate-body
+{
+    height: 600px;
+    width: 780px;
+    background-color: gray;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+.certificate-body div
+{
+    /* display: inline-block; */
+}
+
+.certificate-body .title
+{
+    font-size: 20px;
+    font-weight: 600px;
+}
+
+.certificate-body .subtitle
+{
+    font-size: 18px;
+    font-weight: 400px;
+}
+
+.certificate-body .signature img
+{
+    width: 120px;
+    height: 100px;
+}
+
+.certificate-body .draggable-element
+{
+    cursor: move;
+}

@@ -5,14 +5,15 @@
     <meta property="og:description" content="{{ $course->seo_description }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ asset($course->thumbnail) }}">
-    <meta property="og:type" content="Course">    
+    <meta property="og:type" content="Course">
 @endpush
 
 @section('content')
     <!--===========================
-        BREADCRUMB START
-    ============================-->
-    <section class="wsus__breadcrumb course_details_breadcrumb" style="background: url({{ asset('frontend/assets/images/breadcrumb_bg.jpg') }});">
+            BREADCRUMB START
+        ============================-->
+    <section class="wsus__breadcrumb course_details_breadcrumb"
+        style="background: url({{ asset('frontend/assets/images/breadcrumb_bg.jpg') }});">
         <div class="wsus__breadcrumb_overlay">
             <div class="container">
                 <div class="row">
@@ -29,15 +30,18 @@
                             <h1>{{ $course->title }}</h1>
                             <ul class="list">
                                 <li>
-                                    <span><img src="{{ asset($course->instructor->image) }}" alt="user" class="img-fluid"></span>
+                                    <span><img src="{{ asset($course->instructor->image) }}" alt="user"
+                                            class="img-fluid"></span>
                                     By {{ $course->instructor->name }}
                                 </li>
                                 <li>
-                                    <span><img src="{{ asset('frontend/assets/images/globe_icon_blue.png') }}" alt="Globe" class="img-fluid"></span>
+                                    <span><img src="{{ asset('frontend/assets/images/globe_icon_blue.png') }}"
+                                            alt="Globe" class="img-fluid"></span>
                                     {{ $course->category->name }}
                                 </li>
                                 <li>
-                                    <span><img src="{{ asset('frontend/assets/images/calendar_blue.png') }}" alt="Calendar" class="img-fluid"></span>
+                                    <span><img src="{{ asset('frontend/assets/images/calendar_blue.png') }}" alt="Calendar"
+                                            class="img-fluid"></span>
                                     Last updated {{ date('d/M/Y', strtotime($course->updated_at)) }}
                                 </li>
                             </ul>
@@ -48,13 +52,13 @@
         </div>
     </section>
     <!--===========================
-        BREADCRUMB END
-    ============================-->
+            BREADCRUMB END
+        ============================-->
 
 
     <!--===========================
-        COURSES DETAILS START
-    ============================-->
+            COURSES DETAILS START
+        ============================-->
     <section class="wsus__courses_details pb_120 xs_pb_100">
         <div class="container">
             <div class="row">
@@ -98,32 +102,38 @@
                                     <h3>Course Curriculum</h3>
                                     <div class="accordion" id="accordionExample">
                                         @foreach ($course->chapters as $chapter)
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse-{{ $chapter->id }}" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                    {{ $chapter->title }}
-                                                </button>
-                                            </h2>
-                                            <div id="collapse-{{ $chapter->id }}" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <ul>
-                                                        @foreach($chapter->lessons as $lesson)
-                                                        <li class="{{ $lesson->is_preview == 1 ? 'active' : '' }}">
-                                                            <p>{{ $lesson->title }}</p>
-                                                            @if($lesson->is_preview == 1)
-                                                                <a href="{{ $lesson->file_path }}" data-autoplay="true" data-vbtype="video" class="right_text venobox vbox-item">Preview</a>
-                                                            @else
-                                                                <span class="right_text">{{ convertMinutesToHours($lesson->duration) }}</span>
-                                                            @endif
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button" type="button"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse-{{ $chapter->id }}"
+                                                        aria-expanded="true" aria-controls="collapseOne">
+                                                        {{ $chapter->title }}
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-{{ $chapter->id }}"
+                                                    class="accordion-collapse collapse"
+                                                    data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <ul>
+                                                            @foreach ($chapter->lessons as $lesson)
+                                                                <li
+                                                                    class="{{ $lesson->is_preview == 1 ? 'active' : '' }}">
+                                                                    <p>{{ $lesson->title }}</p>
+                                                                    @if ($lesson->is_preview == 1)
+                                                                        <a href="{{ $lesson->file_path }}"
+                                                                            data-autoplay="true" data-vbtype="video"
+                                                                            class="right_text venobox vbox-item">Preview</a>
+                                                                    @else
+                                                                        <span
+                                                                            class="right_text">{{ convertMinutesToHours($lesson->duration) }}</span>
+                                                                    @endif
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>                                           
                                         @endforeach
                                     </div>
                                 </div>
@@ -147,54 +157,66 @@
                                                     <li><i class="fas fa-star"></i> <b>74,537 Reviews</b></li>
                                                     <li><strong>4.7 Rating</strong></li>
                                                     <li>
-                                                        <span><img src="{{ asset('frontend/assets/images/book_icon.png') }}" alt="book"
-                                                                class="img-fluid"></span>
+                                                        <span><img
+                                                                src="{{ asset('frontend/assets/images/book_icon.png') }}"
+                                                                alt="book" class="img-fluid"></span>
                                                         {{ $course->instructor->courses()->count() }} Courses
                                                     </li>
                                                     <li>
-                                                        <span><img src="{{ asset('frontend/assets/images/user_icon_gray.png') }}" alt="user"
-                                                                class="img-fluid"></span>
+                                                        <span><img
+                                                                src="{{ asset('frontend/assets/images/user_icon_gray.png') }}"
+                                                                alt="user" class="img-fluid"></span>
                                                         32 Students
                                                     </li>
                                                 </ul>
                                                 <ul class="badge d-flex flex-wrap">
                                                     <li data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="Exclusive Author">
-                                                        <img src="{{ asset('frontend/assets/images/badge_1.png') }}" alt="Badge" class="img-fluid">
+                                                        <img src="{{ asset('frontend/assets/images/badge_1.png') }}"
+                                                            alt="Badge" class="img-fluid">
                                                     </li>
                                                     <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Top Earning"><img src="{{ asset('frontend/assets/images/badge_2.png') }}"
+                                                        data-bs-title="Top Earning"><img
+                                                            src="{{ asset('frontend/assets/images/badge_2.png') }}"
                                                             alt="Badge" class="img-fluid"></li>
                                                     <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Trending"><img src="{{ asset('frontend/assets/images/badge_3.png') }}"
+                                                        data-bs-title="Trending"><img
+                                                            src="{{ asset('frontend/assets/images/badge_3.png') }}"
                                                             alt="Badge" class="img-fluid"></li>
                                                     <li data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="2 Years of Membership"><img
-                                                            src="{{ asset('frontend/assets/images/badge_4.png') }}" alt="Badge" class="img-fluid"></li>
+                                                            src="{{ asset('frontend/assets/images/badge_4.png') }}"
+                                                            alt="Badge" class="img-fluid"></li>
                                                     <li data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="Collector Label 1">
-                                                        <img src="{{ asset('frontend/assets/images/badge_5.png') }}" alt="Badge" class="img-fluid">
+                                                        <img src="{{ asset('frontend/assets/images/badge_5.png') }}"
+                                                            alt="Badge" class="img-fluid">
                                                     </li>
                                                 </ul>
                                                 <p class="description">
                                                     {{ $course->instructor->bio }}
                                                 </p>
                                                 <ul class="link d-flex flex-wrap">
-                                                    @if($course->instructor->facebook)
-                                                    <li><a href="{{ $course->instructor->facebook }}"><i class="fab fa-facebook-f"></i></a></li>
+                                                    @if ($course->instructor->facebook)
+                                                        <li><a href="{{ $course->instructor->facebook }}"><i
+                                                                    class="fab fa-facebook-f"></i></a></li>
                                                     @endif
-                                                    @if($course->instructor->x)
-                                                    <li><a href="{{ $course->instructor->x }}"><i class="fab fa-twitter"></i></a></li> 
+                                                    @if ($course->instructor->x)
+                                                        <li><a href="{{ $course->instructor->x }}"><i
+                                                                    class="fab fa-twitter"></i></a></li>
                                                     @endif
-                                                    @if($course->instructor->linkedin)
-                                                    <li><a href="{{ $course->instructor->linkedin }}"><i class="fab fa-linkedin-in"></i></a></li>
+                                                    @if ($course->instructor->linkedin)
+                                                        <li><a href="{{ $course->instructor->linkedin }}"><i
+                                                                    class="fab fa-linkedin-in"></i></a></li>
                                                     @endif
-                                                    @if($course->instructor->website)
-                                                    <li><a href="{{ $course->instructor->website }}"><i class="fas fa-link"></i></a></li>
-                                                    @endif                            
-                                                    @if($course->instructor->github)
-                                                    <li><a href="{{ $course->instructor->github }}"><i class="fab fa-github"></i></a></li>
-                                                    @endif                                                     
+                                                    @if ($course->instructor->website)
+                                                        <li><a href="{{ $course->instructor->website }}"><i
+                                                                    class="fas fa-link"></i></a></li>
+                                                    @endif
+                                                    @if ($course->instructor->github)
+                                                        <li><a href="{{ $course->instructor->github }}"><i
+                                                                    class="fab fa-github"></i></a></li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </div>
@@ -208,15 +230,13 @@
                                     <div class="row align-items-center mb_50">
                                         <div class="col-xl-4 col-md-6">
                                             <div class="total_review">
-                                                <h2>4.7</h2>
+                                                <h2>{{ number_format($course->reviews()->avg('rating'), 2) ?? 0 }}</h2>
                                                 <p>
+                                                    @for($i = 1 ; $i <= number_format($course->reviews()->avg('rating'), 2) ?? 0 ; $i++)
                                                     <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
+                                                    @endfor
                                                 </p>
-                                                <h4>3 Ratings</h4>
+                                                <h4>{{ $course->reviews()->count() }} Ratings</h4>
                                             </div>
                                         </div>
                                         <div class="col-xl-8 col-md-6">
@@ -229,7 +249,7 @@
                                                         </div>
                                                         <span class="fill" data-percentage="85"></span>
                                                     </div>
-                                                    <span class="qnty">87</span>
+                                                    <span class="qnty">{{ $course->reviews()->where('rating', 5)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>4 <i class="fas fa-star"></i></p>
@@ -239,7 +259,7 @@
                                                         </div>
                                                         <span class="fill" data-percentage="70"></span>
                                                     </div>
-                                                    <span class="qnty">69</span>
+                                                    <span class="qnty">{{ $course->reviews()->where('rating', 4)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>3 <i class="fas fa-star"></i></p>
@@ -249,7 +269,7 @@
                                                         </div>
                                                         <span class="fill" data-percentage="50"></span>
                                                     </div>
-                                                    <span class="qnty">44</span>
+                                                    <span class="qnty">{{ $course->reviews()->where('rating', 3)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>2 <i class="fas fa-star"></i></p>
@@ -259,7 +279,7 @@
                                                         </div>
                                                         <span class="fill" data-percentage="30"></span>
                                                     </div>
-                                                    <span class="qnty">29</span>
+                                                    <span class="qnty">{{ $course->reviews()->where('rating', 2)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>1 <i class="fas fa-star"></i></p>
@@ -269,56 +289,39 @@
                                                         </div>
                                                         <span class="fill" data-percentage="10"></span>
                                                     </div>
-                                                    <span class="qnty">12</span>
+                                                    <span class="qnty">{{ $course->reviews()->where('rating', 1)->count() }}</span>
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
                                     <h3>Reviews</h3>
+                                    @foreach ($reviews as $review)
                                     <div class="wsus__course_single_reviews">
                                         <div class="wsus__single_review_img">
-                                            <img src="{{ asset('frontend/assets/images/testimonial_user_1.png') }}" alt="user" class="img-fluid">
+                                            <img src="{{ asset($review->user->image) }}"
+                                                alt="user" class="img-fluid">
                                         </div>
                                         <div class="wsus__single_review_text">
-                                            <h4>Dominic L. Ement</h4>
-                                            <h6> March 23,2024 at 8:37 pm
+                                            <h4>{{ $review->user->name }}</h4>
+                                            <h6> {{ date('d M Y', strtotime($review->created_at)) }}
                                                 <span>
+                                                    @for($i = 1 ; $i <= $review->rating ; $i++)
                                                     <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
+                                                    @endfor
                                                 </span>
                                             </h6>
-                                            <p>Donec vel mauris at lectus iaculis elementum vel vel
-                                                lacus. Sed finibus velit vitae risus imperdiet placerat. Ut posuere eros
-                                                ut molestie rhoncus. Duis eget ex elementum, ultricies dolor sed,
-                                                hendrerit diam. Donec ut blandit nunc, et tempus lorem.</p>
+                                            <p>{{ $review->review }}</p>
                                         </div>
+                                    </div>                                        
+                                    @endforeach
+
+                                    <div>
+                                        {{ $reviews->links() }}
                                     </div>
-                                    <div class="wsus__course_single_reviews">
-                                        <div class="wsus__single_review_img">
-                                            <img src="{{ asset('frontend/assets/images/testimonial_user_2.png') }}" alt="user" class="img-fluid">
-                                        </div>
-                                        <div class="wsus__single_review_text">
-                                            <h4>Smith jhon</h4>
-                                            <h6> March 23,2024 at 8:37 pm
-                                                <span>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </span>
-                                            </h6>
-                                            <p>Donec vel mauris at lectus iaculis elementum vel vel
-                                                lacus. Sed finibus velit vitae risus imperdiet placerat. Ut posuere eros
-                                                ut molestie rhoncus. Duis eget ex elementum, ultricies dolor sed,
-                                                hendrerit diam. Donec ut blandit nunc, et tempus lorem.</p>
-                                        </div>
-                                    </div>
+
                                 </div>
+                                @auth
                                 <div class="wsus__courses_review_input box_area mt_40">
                                     <h3>Write a Review</h3>
                                     <p class="short_text">Your email address will not be published. Required fields are
@@ -326,31 +329,23 @@
                                     <div class="select_rating d-flex flex-wrap">Your Rating:
                                         <ul id="starRating" data-stars="5"></ul>
                                     </div>
-                                    <form action="#">
+                                    <form action="{{ route('review.store') }}" method="POST">
+                                        @csrf
                                         <div class="row">
-                                            <div class="col-xl-6">
-                                                <input type="text" placeholder="Name">
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <input type="email" placeholder="Email">
-                                            </div>
+                                            <input type="hidden" name="rating" id="rating">
+                                            <input type="hidden" name="course" value="{{ $course->id }}">
                                             <div class="col-xl-12">
-                                                <textarea rows="7" placeholder="Comments"></textarea>
+                                                <textarea rows="7" placeholder="Review..." name="review"></textarea>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                        Save my name, email, and website in this browser for the next
-                                                        time I comment.
-                                                    </label>
-                                                </div>
-                                                <a href="#" class="common_btn">Post Comment</a>
+                                            <div class="col-12 mt-3">
+                                                <button type="submit" class="common_btn">Submit Now</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
+                                @else
+                                <div class="alert alert-info mt-3 text-center" role="alert">Please <a href="{{ route('login') }}">Login</a> first to write a review.</div>                                    
+                                @endauth
                             </div>
                         </div>
                     </div>
@@ -359,52 +354,53 @@
                     <div class="wsus__courses_sidebar">
                         <div class="wsus__courses_sidebar_video">
                             <img src="{{ asset($course->thumbnail) }}" alt="Video" class="img-fluid">
-                            @if($course->demo_video_source != null)
-                            <a class="play_btn venobox vbox-item" data-autoplay="true" data-vbtype="video"
-                                href="{{ $course->demo_video_source }}">
-                                <img src="{{ asset('frontend/assets/images/play_icon_white.png') }}" alt="Play" class="img-fluid">
-                            </a>
+                            @if ($course->demo_video_source != null)
+                                <a class="play_btn venobox vbox-item" data-autoplay="true" data-vbtype="video"
+                                    href="{{ $course->demo_video_source }}">
+                                    <img src="{{ asset('frontend/assets/images/play_icon_white.png') }}" alt="Play"
+                                        class="img-fluid">
+                                </a>
                             @endif
                         </div>
                         <h3 class="wsus__courses_sidebar_price">
-                            @if($course->price == 0)
+                            @if ($course->price == 0)
                                 FREE
                             @elseif($course->discount > 0)
                                 <del>${{ $course->price }}</del>${{ $course->discount }}
                             @else
-                                ${{ $course->discount }}    
+                                ${{ $course->discount }}
                             @endif
                         </h3>
                         <div class="wsus__courses_sidebar_list_info">
                             <ul>
                                 <li>
                                     <p>
-                                        <span><img src="{{ asset('frontend/assets/images/clock_icon_black.png') }}" alt="clock"
-                                                class="img-fluid"></span>
+                                        <span><img src="{{ asset('frontend/assets/images/clock_icon_black.png') }}"
+                                                alt="clock" class="img-fluid"></span>
                                         Course Duration
                                     </p>
-                                    {{  convertMinutesToHours($course->duration) }}
+                                    {{ convertMinutesToHours($course->duration) }}
                                 </li>
                                 <li>
                                     <p>
-                                        <span><img src="{{ asset('frontend/assets/images/network_icon_black.png') }}" alt="network"
-                                                class="img-fluid"></span>
+                                        <span><img src="{{ asset('frontend/assets/images/network_icon_black.png') }}"
+                                                alt="network" class="img-fluid"></span>
                                         Skill Level
                                     </p>
                                     {{ $course->level->name }}
                                 </li>
                                 <li>
                                     <p>
-                                        <span><img src="{{ asset('frontend/assets/images/user_icon_black_2.png') }}" alt="User"
-                                                class="img-fluid"></span>
+                                        <span><img src="{{ asset('frontend/assets/images/user_icon_black_2.png') }}"
+                                                alt="User" class="img-fluid"></span>
                                         Student Enrolled
                                     </p>
                                     47
                                 </li>
                                 <li>
                                     <p>
-                                        <span><img src="{{ asset('frontend/assets/images/language_icon_black.png') }}" alt="Language"
-                                                class="img-fluid"></span>
+                                        <span><img src="{{ asset('frontend/assets/images/language_icon_black.png') }}"
+                                                alt="Language" class="img-fluid"></span>
                                         Language
                                     </p>
                                     {{ $course->language->name }}
@@ -428,19 +424,20 @@
                             <h3>This Course Includes</h3>
                             <ul>
                                 <li>
-                                    <span><img src="{{ asset('frontend/assets/images/video_icon_black.png') }}" alt="video" class="img-fluid"></span>
-                                    {{  convertMinutesToHours($course->duration) }} Video Lectures
+                                    <span><img src="{{ asset('frontend/assets/images/video_icon_black.png') }}"
+                                            alt="video" class="img-fluid"></span>
+                                    {{ convertMinutesToHours($course->duration) }} Video Lectures
                                 </li>
-                                @if($course->certificate)                                    
-                                <li>
-                                    <span><img src="{{ asset('frontend/assets/images/certificate_icon_black.png') }}" alt="Certificate"
-                                            class="img-fluid"></span>
-                                    Certificate of Completion
-                                </li>
+                                @if ($course->certificate)
+                                    <li>
+                                        <span><img src="{{ asset('frontend/assets/images/certificate_icon_black.png') }}"
+                                                alt="Certificate" class="img-fluid"></span>
+                                        Certificate of Completion
+                                    </li>
                                 @endif
                                 <li>
-                                    <span><img src="{{ asset('frontend/assets/images/life_time_icon.png') }}" alt="Certificate"
-                                            class="img-fluid"></span>
+                                    <span><img src="{{ asset('frontend/assets/images/life_time_icon.png') }}"
+                                            alt="Certificate" class="img-fluid"></span>
                                     Course Lifetime Access
                                 </li>
                             </ul>
@@ -449,7 +446,8 @@
                         <div class="wsus__courses_sidebar_instructor">
                             <div class="image_area d-flex flex-wrap align-items-center">
                                 <div class="img">
-                                    <img src="{{ asset($course->instructor->image) }}" alt="Instructor" class="img-fluid">
+                                    <img src="{{ asset($course->instructor->image) }}" alt="Instructor"
+                                        class="img-fluid">
                                 </div>
                                 <div class="text">
                                     <h3>{{ $course->instructor->name }}</h3>
@@ -458,17 +456,22 @@
                             </div>
                             <ul class="d-flex flex-wrap">
                                 <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Exclusive Author">
-                                    <img src="{{ asset('frontend/assets/images/badge_1.png') }}" alt="Badge" class="img-fluid">
+                                    <img src="{{ asset('frontend/assets/images/badge_1.png') }}" alt="Badge"
+                                        class="img-fluid">
                                 </li>
                                 <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Top Earning"><img
-                                        src="{{ asset('frontend/assets/images/badge_2.png') }}" alt="Badge" class="img-fluid"></li>
+                                        src="{{ asset('frontend/assets/images/badge_2.png') }}" alt="Badge"
+                                        class="img-fluid"></li>
                                 <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Trending"><img
-                                        src="{{ asset('frontend/assets/images/badge_3.png') }}" alt="Badge" class="img-fluid"></li>
+                                        src="{{ asset('frontend/assets/images/badge_3.png') }}" alt="Badge"
+                                        class="img-fluid"></li>
                                 <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="2 Years of Membership"><img src="{{ asset('frontend/assets/images/badge_4.png') }}" alt="Badge"
+                                    data-bs-title="2 Years of Membership"><img
+                                        src="{{ asset('frontend/assets/images/badge_4.png') }}" alt="Badge"
                                         class="img-fluid"></li>
                                 <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Collector Lavel 1">
-                                    <img src="{{ asset('frontend/assets/images/badge_5.png') }}" alt="Badge" class="img-fluid">
+                                    <img src="{{ asset('frontend/assets/images/badge_5.png') }}" alt="Badge"
+                                        class="img-fluid">
                                 </li>
                             </ul>
                         </div>
@@ -478,10 +481,21 @@
         </div>
     </section>
     <!--===========================
-        COURSES DETAILS END
-    ============================-->
+            COURSES DETAILS END
+        ============================-->
 @endsection
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/gh/shakilahmed0369/ez-share/dist/ez-share.min.js"></script>
+
+
+    <script>
+        $(function() {
+
+            $('#starRating li').on('click', function() {
+                var $starRating = $('#starRating').find('.active').length;
+                $('#rating').val($starRating);
+            })
+        })
+    </script>
 @endpush

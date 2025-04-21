@@ -118,7 +118,7 @@ class CourseContentController extends Controller
             notyf()->success('Deleted Successfully!');
             return response(['message' => 'Deleted Successfully!'], 200);
         }catch(Exception $e) {
-            logger("Course Language Error >> ".$e);
+            logger("Course Chapter Error >> ".$e);
             return response(['message' => 'Something went wrong!'], 500);
         }
     }
@@ -188,7 +188,7 @@ class CourseContentController extends Controller
             notyf()->success('Deleted Successfully!');
             return response(['message' => 'Deleted Successfully!'], 200);
         }catch(Exception $e) {
-            logger("Course Language Error >> ".$e);
+            logger("Course Lesson Error >> ".$e);
             return response(['message' => 'Something went wrong!'], 500);
         }
     }

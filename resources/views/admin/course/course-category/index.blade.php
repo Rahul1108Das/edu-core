@@ -30,7 +30,7 @@
                                 @forelse($categories as $category)
                                     <tr>
                                         <td>
-                                            <i class="{{ $category->icon }}"></i>
+                                            <img src="{{ asset($category->image) }}" alt="">
                                         </td>
                                         <td>
                                             {{ $category->name }}

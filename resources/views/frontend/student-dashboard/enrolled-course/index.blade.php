@@ -81,6 +81,15 @@
                                                             By {{ $enrollment->course->instructor->name }}
                                                         </div>
 
+                                                        @php
+                                                            $watchedLessonCount = \App\Models\WatchHistory::where(['user_id' => user()->id, 'course_id' => $enrollment->course->id, 'is_completed' => 1])->count();
+                                                            $lessonCount = $enrollment->course->lessons()->count();
+                                                        @endphp
+
+                                                        @if ($lessonCount == $watchedLessonCount)
+                                                        <a target="_blank" href="{{ route('student.certificate.download', $enrollment->course->id) }}" class="btn btn-sm btn-warning">Download Certificate</a>                                                            
+                                                        @endif
+
                                                     </td>
                                                     <td class="status">
                                                         <p class="active">Active</p>

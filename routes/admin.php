@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutUsSectionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -9,6 +10,12 @@ use App\Http\Controllers\Admin\Auth\PasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+use App\Http\Controllers\Admin\BecomeInstructorSectionController;
+use App\Http\Controllers\Admin\BrandSectionController;
+use App\Http\Controllers\Admin\CertificateBuilderController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\ContactSettingController;
+use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Admin\CourseContentController;
 use App\Http\Controllers\Admin\CourseController;
@@ -16,13 +23,20 @@ use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FeatureController;
+use App\Http\Controllers\Admin\FeaturedInstructorController;
 use App\Http\Controllers\Admin\InstructorRequestController;
+use App\Http\Controllers\Admin\LatestCourseSectionController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\PayoutGatewayController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\VideoSectionController;
 use App\Http\Controllers\Admin\WithdrawRequestController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\HeroController;
 
 Route::group(["middleware" => "guest:admin", "prefix" => "admin", "as" => "admin."], function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
@@ -128,12 +142,40 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
 
     Route::get('/commission-settings', [SettingController::class, 'commissionSettingIndex'])->name('commission-settings.index');
     Route::post('/commission-settings', [SettingController::class, 'updateCommissionSetting'])->name('commission-settings.update');
+    
+    Route::get('/smtp-settings', [SettingController::class, 'smtpSetting'])->name('smtp-settings.index');
+    Route::post('/smtp-settings', [SettingController::class, 'updateSmtpSetting'])->name('smtp-settings.update');
 
     Route::resource('/payout-gateway', PayoutGatewayController::class);
 
     Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-request.index');
     Route::get('/withdraw-requests/{withdraw}/details', [WithdrawRequestController::class, 'show'])->name('withdraw-request.show');
     Route::post('/withdraw-requests/{withdraw}/status', [WithdrawRequestController::class, 'updateStatus'])->name('withdraw-request.status.update');
+
+    Route::get('/certificate-builder', [CertificateBuilderController::class, 'index'])->name('certificate-builder.index');
+    Route::post('/certificate-builder', [CertificateBuilderController::class, 'update'])->name('certificate-builder.update');
+    Route::post('/certificate-item', [CertificateBuilderController::class, 'itemUpdate'])->name('certificate-item.update');
+
+    Route::resource('/hero', HeroController::class);
+    Route::resource('/feature', FeatureController::class);
+    Route::resource('/about-section', AboutUsSectionController::class);
+    Route::resource('/latest-courses-section', LatestCourseSectionController::class);
+    Route::resource('/become-instructor-section', BecomeInstructorSectionController::class);
+    Route::resource('/video-section', VideoSectionController::class);
+    Route::resource('/brand-section', BrandSectionController::class);
+
+    Route::get('/get-instructor-courses/{id}', [FeaturedInstructorController::class, 'getInstructorCourses'])->name('get-instructor-courses');
+    Route::resource('/featured-instructor-section', FeaturedInstructorController::class);
+
+    Route::resource('/testimonial-section', TestimonialController::class);
+
+    Route::resource('/counter-section', CounterController::class);
+
+    Route::resource('/contact', ContactController::class);
+
+    Route::resource('/contact-setting', ContactSettingController::class);
+
+    Route::resource('/reviews', ReviewController::class);
 
     //lfm routes
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth:admin']], function () {

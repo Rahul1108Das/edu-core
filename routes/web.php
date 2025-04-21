@@ -2,12 +2,14 @@
 
 // use App\Http\Controllers\CourseContentController;
 
+use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\CourseContentController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\CoursePageController;
 use App\Http\Controllers\Frontend\EnrolledCourseController;
+use App\Http\Controllers\Frontend\FrontendContactController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -28,6 +30,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
+
 Route::get('/courses', [CoursePageController::class, 'index'])->name('courses.index');
 Route::get('/courses/{slug}', [CoursePageController::class, 'show'])->name('courses.show');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -49,6 +52,15 @@ Route::post('/razorpay/payment', [PaymentController::class, 'payWithRazorpay'])-
 
 Route::get('/order-success', [PaymentController::class, 'orderSuccess'])->name('order.success');
 Route::get('/order-failed', [PaymentController::class, 'orderFailed'])->name('order.failed');
+
+Route::get('/contact', [FrontendContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [FrontendContactController::class, 'sendEmail'])->name('send.contact');
+
+Route::post('/newsletter-subscribe', [FrontendController::class, 'subscribe'])->name('newsletter.subscribe');
+
+Route::get('/about', [FrontendController::class, 'about'])->name('about.index');
+
+Route::post('/review', [CoursePageController::class, 'storeReview'])->name('review.store');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -76,8 +88,13 @@ Route::group(['middleware' => ['auth:web', 'verified', 'check_role:student'], 'p
 
     Route::post('/update-watch-history', [EnrolledCourseController::class, 'updateWatchHistory'])->name('update-watch-history');
     Route::post('/update-lesson-completion', [EnrolledCourseController::class, 'updateLessonCompletion'])->name('update-lesson-completion');
-
+    
     Route::get('/file-download/{id}', [EnrolledCourseController::class, 'fileDownload'])->name('file-download');
+    
+    Route::get('/certificate/{course}/download', [CertificateController::class, 'download'])->name('certificate.download');
+
+    Route::get('/review', [StudentDashboardController::class, 'review'])->name('review.index');
+    Route::delete('/review/{id}', [StudentDashboardController::class, 'reviewDestroy'])->name('review.destroy');
 
 });
 

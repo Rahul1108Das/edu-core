@@ -24,7 +24,7 @@ class CourseCategoryUpdateRequest extends FormRequest
         return [
             'image' => ['nullable', 'image', 'max:3000'],
             'name' => ['required', 'string', 'max:255', 'unique:course_categories,name,'.$this->course_category->id],
-            'icon' => ['required', 'string', 'max:40'],
+            // 'icon' => ['required', 'string', 'max:40'],
             'show_at_trending' => ['nullable', 'boolean'],
             'status' => ['nullable', 'boolean'],
             'status' => ['nullable', 'boolean'],
