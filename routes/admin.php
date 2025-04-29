@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\BecomeInstructorSectionController;
+use App\Http\Controllers\Admin\BlogCategoryController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BrandSectionController;
 use App\Http\Controllers\Admin\CertificateBuilderController;
 use App\Http\Controllers\Admin\ContactController;
@@ -22,17 +24,24 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubCategoryController;
+use App\Http\Controllers\Admin\CustomPageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FeatureController;
 use App\Http\Controllers\Admin\FeaturedInstructorController;
+use App\Http\Controllers\Admin\FooterColumnOneController;
+use App\Http\Controllers\Admin\FooterColumnTwoController;
+use App\Http\Controllers\Admin\FooterController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\LatestCourseSectionController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\PayoutGatewayController;
+use App\Http\Controllers\Admin\ProfileUpdateController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\TopBarController;
 use App\Http\Controllers\Admin\VideoSectionController;
 use App\Http\Controllers\Admin\WithdrawRequestController;
 use Illuminate\Support\Facades\Route;
@@ -77,11 +86,13 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::get('dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/profile', [ProfileUpdateController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [ProfileUpdateController::class, 'profileUpdate'])->name('profile.update');
+    Route::post('/update-password', [ProfileUpdateController::class, 'updatePassword'])->name('password.update');
 
     Route::get('instructor-doc-download/{user}', [InstructorRequestController::class, 'download'])->name('instructor-doc-download');
 
@@ -146,6 +157,9 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::get('/smtp-settings', [SettingController::class, 'smtpSetting'])->name('smtp-settings.index');
     Route::post('/smtp-settings', [SettingController::class, 'updateSmtpSetting'])->name('smtp-settings.update');
 
+    Route::get('/logo-settings', [SettingController::class, 'logoSettingIndex'])->name('logo-settings.index');
+    Route::post('/logo-settings', [SettingController::class, 'updateLogoSetting'])->name('logo-settings.update');
+
     Route::resource('/payout-gateway', PayoutGatewayController::class);
 
     Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-request.index');
@@ -176,6 +190,22 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::resource('/contact-setting', ContactSettingController::class);
 
     Route::resource('/reviews', ReviewController::class);
+
+    Route::resource('/top-bar', TopBarController::class);
+
+    Route::resource('/footer', FooterController::class);
+
+    Route::resource('/social-links', SocialLinkController::class);
+
+    Route::resource('/footer-column-one', FooterColumnOneController::class);
+
+    Route::resource('/footer-column-two', FooterColumnTwoController::class);
+
+    Route::resource('/custom-page', CustomPageController::class);
+
+    Route::resource('/blog-categories', BlogCategoryController::class);
+
+    Route::resource('/blogs', BlogController::class);
 
     //lfm routes
     Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth:admin']], function () {

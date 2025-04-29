@@ -54,3 +54,16 @@ if(!function_exists('calculateCommission')) {
         return $amount == 0 ? 0 : ($amount * $commission) / 100;
     }
 }
+
+if(!function_exists('sidebarItemActive')) {
+    function sidebarItemActive(array $routes) {
+        // return in_array( request()->route()->getName() , $routes) ? 'active' : '';
+
+        foreach($routes as $route)
+        {
+            if(request()->routeIs($route)){
+                return 'active';
+            }
+        }
+    }
+}

@@ -10,22 +10,24 @@
 
 @section('content')
     <!--===========================
-            BREADCRUMB START
-        ============================-->
+                BREADCRUMB START
+            ============================-->
     <section class="wsus__breadcrumb course_details_breadcrumb"
-        style="background: url({{ asset('frontend/assets/images/breadcrumb_bg.jpg') }});">
+        style="background: url({{ asset(config('settings.site_breadcrumb')) }});">
         <div class="wsus__breadcrumb_overlay">
             <div class="container">
                 <div class="row">
                     <div class="col-12 wow fadeInUp">
                         <div class="wsus__breadcrumb_text">
                             <p class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span>(4 Reviews)</span>
+                                @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $course->reviews()->avg('rating'))
+                                    <i class="fas fa-star"></i>
+                                @else
+                                    <i class="far fa-star"></i>
+                                @endif
+                                @endfor
+                                <span>({{ number_format($course->reviews()->avg('rating'), 2) ?? 0 }} Reviews)</span>
                             </p>
                             <h1>{{ $course->title }}</h1>
                             <ul class="list">
@@ -52,13 +54,13 @@
         </div>
     </section>
     <!--===========================
-            BREADCRUMB END
-        ============================-->
+                BREADCRUMB END
+            ============================-->
 
 
     <!--===========================
-            COURSES DETAILS START
-        ============================-->
+                COURSES DETAILS START
+            ============================-->
     <section class="wsus__courses_details pb_120 xs_pb_100">
         <div class="container">
             <div class="row">
@@ -154,7 +156,11 @@
                                                 <h4>{{ $course->instructor->name }}</h4>
                                                 <p class="designation">{{ $course->instructor->headline }}</p>
                                                 <ul class="list">
-                                                    <li><i class="fas fa-star"></i> <b>74,537 Reviews</b></li>
+                                                    @php
+                                                        $coursesId = $course->instructor->courses()->pluck('id')->toArray();
+                                                        $reviewsCount = \App\Models\Review::whereIn('course_id', $coursesId)->count();
+                                                    @endphp
+                                                    <li><i class="fas fa-star"></i> <b>{{ $reviewsCount }} Reviews</b></li>
                                                     <li><strong>4.7 Rating</strong></li>
                                                     <li>
                                                         <span><img
@@ -166,31 +172,7 @@
                                                         <span><img
                                                                 src="{{ asset('frontend/assets/images/user_icon_gray.png') }}"
                                                                 alt="user" class="img-fluid"></span>
-                                                        32 Students
-                                                    </li>
-                                                </ul>
-                                                <ul class="badge d-flex flex-wrap">
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Exclusive Author">
-                                                        <img src="{{ asset('frontend/assets/images/badge_1.png') }}"
-                                                            alt="Badge" class="img-fluid">
-                                                    </li>
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Top Earning"><img
-                                                            src="{{ asset('frontend/assets/images/badge_2.png') }}"
-                                                            alt="Badge" class="img-fluid"></li>
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Trending"><img
-                                                            src="{{ asset('frontend/assets/images/badge_3.png') }}"
-                                                            alt="Badge" class="img-fluid"></li>
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="2 Years of Membership"><img
-                                                            src="{{ asset('frontend/assets/images/badge_4.png') }}"
-                                                            alt="Badge" class="img-fluid"></li>
-                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Collector Label 1">
-                                                        <img src="{{ asset('frontend/assets/images/badge_5.png') }}"
-                                                            alt="Badge" class="img-fluid">
+                                                        {{ $course->instructor->students()->count() }} Students
                                                     </li>
                                                 </ul>
                                                 <p class="description">
@@ -232,8 +214,8 @@
                                             <div class="total_review">
                                                 <h2>{{ number_format($course->reviews()->avg('rating'), 2) ?? 0 }}</h2>
                                                 <p>
-                                                    @for($i = 1 ; $i <= number_format($course->reviews()->avg('rating'), 2) ?? 0 ; $i++)
-                                                    <i class="fas fa-star"></i>
+                                                    @for ($i = 1; $i <= number_format($course->reviews()->avg('rating'), 2) ?? 0; $i++)
+                                                        <i class="fas fa-star"></i>
                                                     @endfor
                                                 </p>
                                                 <h4>{{ $course->reviews()->count() }} Ratings</h4>
@@ -249,7 +231,8 @@
                                                         </div>
                                                         <span class="fill" data-percentage="85"></span>
                                                     </div>
-                                                    <span class="qnty">{{ $course->reviews()->where('rating', 5)->count() }}</span>
+                                                    <span
+                                                        class="qnty">{{ $course->reviews()->where('rating', 5)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>4 <i class="fas fa-star"></i></p>
@@ -259,7 +242,8 @@
                                                         </div>
                                                         <span class="fill" data-percentage="70"></span>
                                                     </div>
-                                                    <span class="qnty">{{ $course->reviews()->where('rating', 4)->count() }}</span>
+                                                    <span
+                                                        class="qnty">{{ $course->reviews()->where('rating', 4)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>3 <i class="fas fa-star"></i></p>
@@ -269,7 +253,8 @@
                                                         </div>
                                                         <span class="fill" data-percentage="50"></span>
                                                     </div>
-                                                    <span class="qnty">{{ $course->reviews()->where('rating', 3)->count() }}</span>
+                                                    <span
+                                                        class="qnty">{{ $course->reviews()->where('rating', 3)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>2 <i class="fas fa-star"></i></p>
@@ -279,7 +264,8 @@
                                                         </div>
                                                         <span class="fill" data-percentage="30"></span>
                                                     </div>
-                                                    <span class="qnty">{{ $course->reviews()->where('rating', 2)->count() }}</span>
+                                                    <span
+                                                        class="qnty">{{ $course->reviews()->where('rating', 2)->count() }}</span>
                                                 </div>
                                                 <div class="review_bar_single">
                                                     <p>1 <i class="fas fa-star"></i></p>
@@ -289,7 +275,8 @@
                                                         </div>
                                                         <span class="fill" data-percentage="10"></span>
                                                     </div>
-                                                    <span class="qnty">{{ $course->reviews()->where('rating', 1)->count() }}</span>
+                                                    <span
+                                                        class="qnty">{{ $course->reviews()->where('rating', 1)->count() }}</span>
                                                 </div>
 
                                             </div>
@@ -297,23 +284,23 @@
                                     </div>
                                     <h3>Reviews</h3>
                                     @foreach ($reviews as $review)
-                                    <div class="wsus__course_single_reviews">
-                                        <div class="wsus__single_review_img">
-                                            <img src="{{ asset($review->user->image) }}"
-                                                alt="user" class="img-fluid">
+                                        <div class="wsus__course_single_reviews">
+                                            <div class="wsus__single_review_img">
+                                                <img src="{{ asset($review->user->image) }}" alt="user"
+                                                    class="img-fluid">
+                                            </div>
+                                            <div class="wsus__single_review_text">
+                                                <h4>{{ $review->user->name }}</h4>
+                                                <h6> {{ date('d M Y', strtotime($review->created_at)) }}
+                                                    <span>
+                                                        @for ($i = 1; $i <= $review->rating; $i++)
+                                                            <i class="fas fa-star"></i>
+                                                        @endfor
+                                                    </span>
+                                                </h6>
+                                                <p>{{ $review->review }}</p>
+                                            </div>
                                         </div>
-                                        <div class="wsus__single_review_text">
-                                            <h4>{{ $review->user->name }}</h4>
-                                            <h6> {{ date('d M Y', strtotime($review->created_at)) }}
-                                                <span>
-                                                    @for($i = 1 ; $i <= $review->rating ; $i++)
-                                                    <i class="fas fa-star"></i>
-                                                    @endfor
-                                                </span>
-                                            </h6>
-                                            <p>{{ $review->review }}</p>
-                                        </div>
-                                    </div>                                        
                                     @endforeach
 
                                     <div>
@@ -322,29 +309,30 @@
 
                                 </div>
                                 @auth
-                                <div class="wsus__courses_review_input box_area mt_40">
-                                    <h3>Write a Review</h3>
-                                    <p class="short_text">Your email address will not be published. Required fields are
-                                        marked *</p>
-                                    <div class="select_rating d-flex flex-wrap">Your Rating:
-                                        <ul id="starRating" data-stars="5"></ul>
-                                    </div>
-                                    <form action="{{ route('review.store') }}" method="POST">
-                                        @csrf
-                                        <div class="row">
-                                            <input type="hidden" name="rating" id="rating">
-                                            <input type="hidden" name="course" value="{{ $course->id }}">
-                                            <div class="col-xl-12">
-                                                <textarea rows="7" placeholder="Review..." name="review"></textarea>
-                                            </div>
-                                            <div class="col-12 mt-3">
-                                                <button type="submit" class="common_btn">Submit Now</button>
-                                            </div>
+                                    <div class="wsus__courses_review_input box_area mt_40">
+                                        <h3>Write a Review</h3>
+                                        <p class="short_text">Your email address will not be published. Required fields are
+                                            marked *</p>
+                                        <div class="select_rating d-flex flex-wrap">Your Rating:
+                                            <ul id="starRating" data-stars="5"></ul>
                                         </div>
-                                    </form>
-                                </div>
+                                        <form action="{{ route('review.store') }}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <input type="hidden" name="rating" id="rating">
+                                                <input type="hidden" name="course" value="{{ $course->id }}">
+                                                <div class="col-xl-12">
+                                                    <textarea rows="7" placeholder="Review..." name="review"></textarea>
+                                                </div>
+                                                <div class="col-12 mt-3">
+                                                    <button type="submit" class="common_btn">Submit Now</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 @else
-                                <div class="alert alert-info mt-3 text-center" role="alert">Please <a href="{{ route('login') }}">Login</a> first to write a review.</div>                                    
+                                    <div class="alert alert-info mt-3 text-center" role="alert">Please <a
+                                            href="{{ route('login') }}">Login</a> first to write a review.</div>
                                 @endauth
                             </div>
                         </div>
@@ -395,7 +383,7 @@
                                                 alt="User" class="img-fluid"></span>
                                         Student Enrolled
                                     </p>
-                                    47
+                                    {{ $course->enrollments()->count() }}
                                 </li>
                                 <li>
                                     <p>
@@ -406,10 +394,7 @@
                                     {{ $course->language->name }}
                                 </li>
                             </ul>
-                            <a class="common_btn" href="#">Enroll The Course <i class="far fa-arrow-right"></i></a>
-                        </div>
-                        <div class="wsus__courses_sidebar_share_btn d-flex flex-wrap justify-content-between">
-                            <a href="#" class="common_btn"><i class="far fa-heart"></i> Add to Wishlist</a>
+                            <a class="common_btn add_to_cart" data-course-id="{{ $course->id }}" href="">Add to Cart <i class="far fa-arrow-right"></i></a>
                         </div>
                         <div class="wsus__courses_sidebar_share_area">
                             <span>Share:</span>
@@ -451,29 +436,9 @@
                                 </div>
                                 <div class="text">
                                     <h3>{{ $course->instructor->name }}</h3>
-                                    <p><span>Instructor</span> Level 2</p>
+                                    <p><span>Instructor</span></p>
                                 </div>
                             </div>
-                            <ul class="d-flex flex-wrap">
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Exclusive Author">
-                                    <img src="{{ asset('frontend/assets/images/badge_1.png') }}" alt="Badge"
-                                        class="img-fluid">
-                                </li>
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Top Earning"><img
-                                        src="{{ asset('frontend/assets/images/badge_2.png') }}" alt="Badge"
-                                        class="img-fluid"></li>
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Trending"><img
-                                        src="{{ asset('frontend/assets/images/badge_3.png') }}" alt="Badge"
-                                        class="img-fluid"></li>
-                                <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="2 Years of Membership"><img
-                                        src="{{ asset('frontend/assets/images/badge_4.png') }}" alt="Badge"
-                                        class="img-fluid"></li>
-                                <li data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Collector Lavel 1">
-                                    <img src="{{ asset('frontend/assets/images/badge_5.png') }}" alt="Badge"
-                                        class="img-fluid">
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -481,8 +446,8 @@
         </div>
     </section>
     <!--===========================
-            COURSES DETAILS END
-        ============================-->
+                COURSES DETAILS END
+            ============================-->
 @endsection
 
 @push('scripts')

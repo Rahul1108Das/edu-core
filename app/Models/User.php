@@ -58,4 +58,12 @@ class User extends Authenticatable
     function gatewayInfo() : HasOne {
         return $this->hasOne(InstructorPayoutInformation::class, 'instructor_id', 'id');
     }
+
+    function students() : HasMany {
+        return $this->hasMany(Enrollment::class, 'instructor_id', 'id');
+    }
+
+    function enrollments() : HasMany {
+        return $this->hasMany(Enrollment::class, 'user_id', 'id');
+    }
 }

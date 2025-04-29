@@ -168,3 +168,16 @@ input, select, textarea {
 {
     cursor: move;
 }
+
+.nav-item.dropdown.active > .dropdown-menu {
+    display: block !important;
+}
+
+.dropdown-item.active {
+    color: white !important;
+    background: #0000004a !important;
+}
+
+.nav-item.active {
+    background: #0000004a !important;
+}

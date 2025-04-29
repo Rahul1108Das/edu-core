@@ -26,6 +26,11 @@ class CartController extends Controller
             return response(['message' => 'Please login first!'], 401);
         }
 
+        
+        if(user()->enrollments()->where(['course_id' => $id])->exists()){ 
+            return response(['message' => 'Already Enrolled!'], 401);
+        }    
+
         if(Cart::where(['course_id' => $id, 'user_id' => Auth::guard('web')->user()->id])->exists()){
             return response(['message' => 'Already Added!'], 401);
         }

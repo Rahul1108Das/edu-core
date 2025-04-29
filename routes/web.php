@@ -3,6 +3,7 @@
 // use App\Http\Controllers\CourseContentController;
 
 use App\Http\Controllers\Admin\CertificateController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\CourseContentController;
@@ -33,9 +34,9 @@ Route::get('/', [FrontendController::class, 'index'])->name('home');
 
 Route::get('/courses', [CoursePageController::class, 'index'])->name('courses.index');
 Route::get('/courses/{slug}', [CoursePageController::class, 'show'])->name('courses.show');
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/add-to-cart/{course}', [CartController::class, 'addToCart'])->name('add-to-cart');
-Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('remove-from-cart');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middleware('auth');
+Route::post('/add-to-cart/{course}', [CartController::class, 'addToCart'])->name('add-to-cart')->middleware('auth');
+Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('remove-from-cart')->middleware('auth');
 
 Route::get('/checkout', CheckoutController::class)->name('checkout.index');
 
@@ -61,6 +62,12 @@ Route::post('/newsletter-subscribe', [FrontendController::class, 'subscribe'])->
 Route::get('/about', [FrontendController::class, 'about'])->name('about.index');
 
 Route::post('/review', [CoursePageController::class, 'storeReview'])->name('review.store');
+
+Route::get('/page/{slug}', [FrontendController::class, 'customPage'])->name('custom-page');
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::post('/blog/comment/{id}', [BlogController::class, 'storeComment'])->name('blog.comment.store');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
