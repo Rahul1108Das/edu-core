@@ -24,9 +24,8 @@
                         <table class="table table-vcenter card-table">
                             <thead>
                                 <tr>
-                                    <th>Icon</th>
+                                    <th>Image</th>
                                     <th>Name</th>
-                                    <th>Trending</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -39,13 +38,6 @@
                                         </td>
                                         <td>
                                             {{ $category->name }}
-                                        </td>
-                                        <td>
-                                            @if ($category->show_at_trending)
-                                                <span class="badge bg-lime text-lime-fg">Yes</span>
-                                            @else
-                                                <span class="badge bg-red text-red-fg">Yes</span>
-                                            @endif
                                         </td>
                                         <td>
                                             @if ($category->status)
@@ -67,7 +59,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center">
+                                        <td colspan="4" class="text-center">
                                             No Data Found
                                         </td>
                                     </tr>

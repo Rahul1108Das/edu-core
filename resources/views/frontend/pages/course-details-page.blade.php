@@ -10,8 +10,8 @@
 
 @section('content')
     <!--===========================
-                BREADCRUMB START
-            ============================-->
+                    BREADCRUMB START
+                ============================-->
     <section class="wsus__breadcrumb course_details_breadcrumb"
         style="background: url({{ asset(config('settings.site_breadcrumb')) }});">
         <div class="wsus__breadcrumb_overlay">
@@ -21,11 +21,11 @@
                         <div class="wsus__breadcrumb_text">
                             <p class="rating">
                                 @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $course->reviews()->avg('rating'))
-                                    <i class="fas fa-star"></i>
-                                @else
-                                    <i class="far fa-star"></i>
-                                @endif
+                                    @if ($i <= $course->reviews()->avg('rating'))
+                                        <i class="fas fa-star"></i>
+                                    @else
+                                        <i class="far fa-star"></i>
+                                    @endif
                                 @endfor
                                 <span>({{ number_format($course->reviews()->avg('rating'), 2) ?? 0 }} Reviews)</span>
                             </p>
@@ -54,13 +54,13 @@
         </div>
     </section>
     <!--===========================
-                BREADCRUMB END
-            ============================-->
+                    BREADCRUMB END
+                ============================-->
 
 
     <!--===========================
-                COURSES DETAILS START
-            ============================-->
+                    COURSES DETAILS START
+                ============================-->
     <section class="wsus__courses_details pb_120 xs_pb_100">
         <div class="container">
             <div class="row">
@@ -157,10 +157,17 @@
                                                 <p class="designation">{{ $course->instructor->headline }}</p>
                                                 <ul class="list">
                                                     @php
-                                                        $coursesId = $course->instructor->courses()->pluck('id')->toArray();
-                                                        $reviewsCount = \App\Models\Review::whereIn('course_id', $coursesId)->count();
+                                                        $coursesId = $course->instructor
+                                                            ->courses()
+                                                            ->pluck('id')
+                                                            ->toArray();
+                                                        $reviewsCount = \App\Models\Review::whereIn(
+                                                            'course_id',
+                                                            $coursesId,
+                                                        )->count();
                                                     @endphp
-                                                    <li><i class="fas fa-star"></i> <b>{{ $reviewsCount }} Reviews</b></li>
+                                                    <li><i class="fas fa-star"></i> <b>{{ $reviewsCount }} Reviews</b>
+                                                    </li>
                                                     <li><strong>4.7 Rating</strong></li>
                                                     <li>
                                                         <span><img
@@ -351,12 +358,12 @@
                             @endif
                         </div>
                         <h3 class="wsus__courses_sidebar_price">
-                            @if ($course->price == 0)
+                            @if ($course->discount > 0)
+                                <del>{{ config('settings.currency_icon') }}{{ $course->price }}</del>${{ $course->discount }}
+                            @elseif ($course->price == 0)
                                 FREE
-                            @elseif($course->discount > 0)
-                                <del>${{ $course->price }}</del>${{ $course->discount }}
                             @else
-                                ${{ $course->discount }}
+                                ${{ config('settings.currency_icon') }}{{ $course->price }}
                             @endif
                         </h3>
                         <div class="wsus__courses_sidebar_list_info">
@@ -394,7 +401,8 @@
                                     {{ $course->language->name }}
                                 </li>
                             </ul>
-                            <a class="common_btn add_to_cart" data-course-id="{{ $course->id }}" href="">Add to Cart <i class="far fa-arrow-right"></i></a>
+                            <a class="common_btn add_to_cart" data-course-id="{{ $course->id }}" href="">Add to
+                                Cart <i class="far fa-arrow-right"></i></a>
                         </div>
                         <div class="wsus__courses_sidebar_share_area">
                             <span>Share:</span>
@@ -446,8 +454,8 @@
         </div>
     </section>
     <!--===========================
-                COURSES DETAILS END
-            ============================-->
+                    COURSES DETAILS END
+                ============================-->
 @endsection
 
 @push('scripts')

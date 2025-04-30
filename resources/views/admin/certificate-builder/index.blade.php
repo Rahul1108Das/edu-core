@@ -33,7 +33,7 @@
                                 </div>       
                                 <div class="form-group mt-3">
                                     @if($certificate?->background)
-                                    <x-image-preview src="{{ asset($certificate->background) }}" />                                        
+                                    <x-image-preview src="{{ asset($certificate?->background) }}" />                                        
                                     @endif
                                     <label class="form-label">Certificate Background</label>
                                     <input type="file" name="background" class="form-control"> 
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="form-group mt-3">
                                     @if($certificate?->signature)
-                                    <x-image-preview src="{{ asset($certificate->signature) }}" />                                        
+                                    <x-image-preview src="{{ asset($certificate?->signature) }}" />                                        
                                     @endif
                                     <label class="form-label">Certificate Signature</label>
                                     <input type="file" name="signature" class="form-control"> 
@@ -60,11 +60,11 @@
                                 <h3 class="card-title">Certificate Builder</h3>
                             </div>
                             <div class="card-body">
-                                <div class="certificate-body" style="background-image: url({{ asset($certificate->background) }});"> 
-                                    <div id="title" class="title draggable-element">{{ $certificate->title }}</div>
-                                    <div id="subtitle" class="subtitle draggable-element">{{ $certificate->sub_title }}</div>
-                                    <div id="description" class="description draggable-element">{{ $certificate->description }}</div>
-                                    <div id="signature" class="signature draggable-element"><img src="{{ asset($certificate->signature) }}" alt=""></div>
+                                <div class="certificate-body" style="background-image: url({{ asset($certificate?->background) }});"> 
+                                    <div id="title" class="title draggable-element">{{ $certificate?->title }}</div>
+                                    <div id="subtitle" class="subtitle draggable-element">{{ $certificate?->sub_title }}</div>
+                                    <div id="description" class="description draggable-element">{{ $certificate?->description }}</div>
+                                    <div id="signature" class="signature draggable-element"><img src="{{ asset($certificate?->signature) }}" alt=""></div>
                                 </div>
                             </div>
                         </div>

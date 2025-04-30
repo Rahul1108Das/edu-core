@@ -49,11 +49,9 @@ class CourseSubCategoryController extends Controller
             $imagePath = $this->uploadFile($request->file('image'));
             $category->image = $imagePath;
         }
-        $category->icon = $request->icon;
         $category->name = $request->name;
         $category->slug = \Str::slug($request->name);
         $category->parent_id = $course_category->id;
-        $category->show_at_trending = $request->show_at_trending ?? 0;
         $category->status = $request->status ?? 0;
         $category->save();
 

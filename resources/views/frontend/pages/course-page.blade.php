@@ -81,7 +81,7 @@
                                 @endforeach
                             </div>
 
-                            <div class="wsus__sidebar_course_lavel rating">
+                            {{-- <div class="wsus__sidebar_course_lavel rating">
                                 <h3>Rating</h3>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value=""
@@ -118,7 +118,7 @@
                                         <i class="fas fa-star"></i> 1 star or above
                                     </label>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="wsus__sidebar_course_lavel duration">
                                 <h3>Language</h3>
@@ -162,7 +162,7 @@
                             <div class="wsus__single_courses_3">
                                 <div class="wsus__single_courses_3_img">
                                     <img src="{{ asset($course->thumbnail) }}" alt="Courses" class="img-fluid">
-                                    <span class="time"><i class="far fa-clock"></i> 15 Hours</span>
+                                    <span class="time"><i class="far fa-clock"></i>{{ convertMinutesToHours($course->duration) }}</span>
                                 </div>
                                 <div class="wsus__single_courses_text_3">
                                     <div class="rating_area">

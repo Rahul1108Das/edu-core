@@ -36,10 +36,10 @@
                 <div class="col-xl-3 col-md-6 col-lg-4 wow fadeInUp">
                     <div class="wsus__contact_info">
                         <div class="icon">
-                            <img src="{{ asset($contactCard->icon) }}" alt="contact" class="img-fluid">
+                            <img src="{{ asset($contactCard?->icon) }}" alt="contact" class="img-fluid">
                         </div>
-                        <h4>{{ $contactCard->title }}</h4>
-                        <p>{{ $contactCard->line_one }} <br> {{ $contactCard->line_two }}</p>
+                        <h4>{{ $contactCard?->title }}</h4>
+                        <p>{{ $contactCard?->line_one }} <br> {{ $contactCard?->line_two }}</p>
                     </div>
                 </div>                    
                 @endforeach
@@ -48,7 +48,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-4 col-lg-5 d-md-none d-lg-block">
                         <div class="wsus__contact_form_img">
-                            <img src="{{ asset($contactSetting->image) }}" alt="contact" class="img-fluid">
+                            <img src="{{ asset($contactSetting?->image) }}" alt="contact" class="img-fluid">
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-7">
@@ -82,10 +82,10 @@
                 </div>
             </div>
         </div>
-        @if ($contactSetting->map_url)
+        @if ($contactSetting?->map_url)
         <div class="wsus__contact_map mt_120 xs_mt_100 wow fadeInUp">
             <iframe
-                src="{{ $contactSetting->map_url }}"
+                src="{{ $contactSetting?->map_url }}"
                 width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>            

@@ -17,16 +17,16 @@ document.addEventListener("DOMContentLoaded", function () {
         height: 300,
         menubar: false,
         plugins: [
-          'advlist', 'autolink', 'lists', 'link', 'charmap',
-          'anchor', 'searchreplace', 'visualblocks', 'fullscreen',
-          'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            'advlist', 'autolink', 'lists', 'link', 'charmap',
+            'anchor', 'searchreplace', 'visualblocks', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'help', 'wordcount'
         ],
         toolbar: 'undo redo | blocks | ' +
-        'bold italic backcolor | alignleft aligncenter ' +
-        'alignright alignjustify | bullist numlist outdent indent | ' +
-        'removeformat | help',
+            'bold italic backcolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | help',
         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
-      });
+    });
 });
 
 $(function () {
@@ -69,6 +69,36 @@ $('.delete-confirm').on('click', function (e) {
     })
 });
 
+$('.db-clear').on('click', function (e) {
+    e.preventDefault();
+    $('#modal-database-clear').modal("show");
+});
+
+$('.db-clear-submit').on('click', function (e) {
+    e.preventDefault();
+
+    $.ajax({
+        method: 'DELETE',
+        url: base_url + `/admin/database-clear`,
+        data: {
+            _token: csrf_token
+        },
+        beforeSend: function () {
+            $('.db-clear-btn').text('Wiping.....');
+        },
+        success: function (data) {
+            window.location.reload();
+        },
+        error: function (xhr, status, error) {
+            let errorMessage = xhr.responseJSON;
+            notyf.error(errorMessage.message);
+        },
+        complete: function () {
+            $('.db-clear-btn').text('Wipe Database');
+        }
+    })
+});
+
 $(function () {
     $('.draggable-element').draggable({
         containment: '.certificate-body',
@@ -97,15 +127,15 @@ $(function () {
     $('.select_instructor').on('change', function () {
 
         let id = $(this).val();
-    
+
         $.ajax({
             method: 'GET',
             url: `${base_url}/admin/get-instructor-courses/${id}`,
-            beforeSend: function() {
+            beforeSend: function () {
                 $('.instructor_courses').empty();
             },
-            success: function(data) {
-                $.each(data.courses, function(key, value) {
+            success: function (data) {
+                $.each(data.courses, function (key, value) {
                     let option = `<option value="${value.id}">${value.title}</option>`;
                     $('.instructor_courses').append(option);
                 })

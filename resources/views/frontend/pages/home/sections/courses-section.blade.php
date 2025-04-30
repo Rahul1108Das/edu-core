@@ -1,9 +1,9 @@
 @php
-    $categoryOne = \App\Models\CourseCategory::where('id', $latestCourses->category_one)->first();
-    $categoryTwo = \App\Models\CourseCategory::where('id', $latestCourses->category_two)->first();
-    $categoryThree = \App\Models\CourseCategory::where('id', $latestCourses->category_three)->first();
-    $categoryFour = \App\Models\CourseCategory::where('id', $latestCourses->category_four)->first();
-    $categoryFive = \App\Models\CourseCategory::where('id', $latestCourses->category_five)->first();
+    $categoryOne = \App\Models\CourseCategory::where('id', $latestCourses?->category_one)->first();
+    $categoryTwo = \App\Models\CourseCategory::where('id', $latestCourses?->category_two)->first();
+    $categoryThree = \App\Models\CourseCategory::where('id', $latestCourses?->category_three)->first();
+    $categoryFour = \App\Models\CourseCategory::where('id', $latestCourses?->category_four)->first();
+    $categoryFive = \App\Models\CourseCategory::where('id', $latestCourses?->category_five)->first();
 @endphp
 
 <section class="wsus__courses_3 pt_120 xs_pt_100 mt_120 xs_mt_90 pb_120 xs_pb_100">
@@ -73,7 +73,7 @@
                                 <div class="wsus__single_courses_3">
                                     <div class="wsus__single_courses_3_img">
                                         <img src="{{ asset($course->thumbnail) }}" alt="Courses" class="img-fluid">
-                                        <span class="time"><i class="far fa-clock"></i> 15 Hours</span>
+                                        <span class="time"><i class="far fa-clock"></i>{{ convertMinutesToHours($course->duration) }}</span>
                                     </div>
                                     <div class="wsus__single_courses_text_3">
                                         <div class="rating_area">
@@ -139,7 +139,7 @@
                             <div class="wsus__single_courses_3">
                                 <div class="wsus__single_courses_3_img">
                                     <img src="{{ asset($course->thumbnail) }}" alt="Courses" class="img-fluid">
-                                    <span class="time"><i class="far fa-clock"></i> 15 Hours</span>
+                                    <span class="time"><i class="far fa-clock"></i>{{ convertMinutesToHours($course->duration) }}</span>
                                 </div>
                                 <div class="wsus__single_courses_text_3">
                                     <div class="rating_area">
@@ -205,7 +205,7 @@
                             <div class="wsus__single_courses_3">
                                 <div class="wsus__single_courses_3_img">
                                     <img src="{{ asset($course->thumbnail) }}" alt="Courses" class="img-fluid">
-                                    <span class="time"><i class="far fa-clock"></i> 15 Hours</span>
+                                    <span class="time"><i class="far fa-clock"></i> {{ convertMinutesToHours($course->duration) }}</span>
                                 </div>
                                 <div class="wsus__single_courses_text_3">
                                     <div class="rating_area">
@@ -271,7 +271,7 @@
                             <div class="wsus__single_courses_3">
                                 <div class="wsus__single_courses_3_img">
                                     <img src="{{ asset($course->thumbnail) }}" alt="Courses" class="img-fluid">
-                                    <span class="time"><i class="far fa-clock"></i> 15 Hours</span>
+                                    <span class="time"><i class="far fa-clock"></i> {{ convertMinutesToHours($course->duration) }}</span>
                                 </div>
                                 <div class="wsus__single_courses_text_3">
                                     <div class="rating_area">
@@ -337,7 +337,7 @@
                             <div class="wsus__single_courses_3">
                                 <div class="wsus__single_courses_3_img">
                                     <img src="{{ asset($course->thumbnail) }}" alt="Courses" class="img-fluid">
-                                    <span class="time"><i class="far fa-clock"></i> 15 Hours</span>
+                                    <span class="time"><i class="far fa-clock"></i> {{ convertMinutesToHours($course->duration) }}</span>
                                 </div>
                                 <div class="wsus__single_courses_text_3">
                                     <div class="rating_area">

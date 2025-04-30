@@ -160,8 +160,9 @@ input, select, textarea {
 
 .certificate-body .signature img
 {
-    width: 120px;
+    width: auto;
     height: 100px;
+    max-width: 300px;
 }
 
 .certificate-body .draggable-element
@@ -180,4 +181,8 @@ input, select, textarea {
 
 .nav-item.active {
     background: #0000004a !important;
+}
+
+#description {
+    padding: 10px 50px 10px 50px;
 }

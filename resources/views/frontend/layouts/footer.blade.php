@@ -14,11 +14,11 @@
                             <a class="logo" href="index.html">
                                 <img src="{{ asset(config('settings.site_footer_logo')) }}" alt="EduCore" class="img-fluid">
                             </a>
-                            <p>{{ $footer->description }}</p>
+                            <p>{{ $footer?->description }}</p>
                             <h2>Follow Us On</h2>
                             <ul class="d-flex flex-wrap">
                                 @foreach ($socialLinks as $socialLink)
-                                    <li><a href="{{ $socialLink->url }}" target="_blank"><img src="{{ asset($socialLink->icon) }}" alt="" style="width: 20px !important; height: 20px !important;"></a></li>                                    
+                                    <li><a href="{{ $socialLink?->url }}" target="_blank"><img src="{{ asset($socialLink?->icon) }}" alt="" style="width: 20px !important; height: 20px !important;"></a></li>                                    
                                 @endforeach
                             </ul>
                         </div>
@@ -28,7 +28,7 @@
                             <h2>Help Links</h2>
                             <ul>
                                 @foreach ($footerColumnOne as $footerColumn)
-                                    <li><a href="{{ $footerColumn->url }}">{{ $footerColumn->title }}</a></li>                                    
+                                    <li><a href="{{ $footerColumn?->url }}">{{ $footerColumn?->title }}</a></li>                                    
                                 @endforeach
                             </ul>
                         </div>
@@ -38,7 +38,7 @@
                             <h2>More Links</h2>
                             <ul>
                                 @foreach ($footerColumnTwo as $footerColumn)
-                                    <li><a href="{{ $footerColumn->url }}">{{ $footerColumn->title }}</a></li>                                    
+                                    <li><a href="{{ $footerColumn?->url }}">{{ $footerColumn?->title }}</a></li>                                    
                                 @endforeach
                             </ul>
                         </div>
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="text">
                                         <h4>Mail us:</h4>
-                                        <a href="mailto:{{ $footer->email }}">{{ $footer->email }}</a>
+                                        <a href="mailto:{{ $footer?->email }}">{{ $footer?->email }}</a>
                                     </div>
                                 </li>
                                 <li>
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="text">
                                         <h4>Call us:</h4>
-                                        <a href="callto:{{ $footer->phone }}">{{ $footer->phone }}</a>
+                                        <a href="callto:{{ $footer?->phone }}">{{ $footer?->phone }}</a>
                                     </div>
                                 </li>
                                 <li>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="text">
                                         <h4>Address:</h4>
-                                        <p>{{ $footer->address }}</p>
+                                        <p>{{ $footer?->address }}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -85,7 +85,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="wsus__footer_copyright_text text-center" style="display: block;">
-                            <p>{{ $footer->copyright }}</p>
+                            <p>{{ $footer?->copyright }}</p>
                         </div>
                     </div>
                 </div>

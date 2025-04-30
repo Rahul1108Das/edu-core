@@ -6,7 +6,7 @@
         </button>
         <h1 class="navbar-brand navbar-brand-autodark">
             <a href=".">
-                <img src="{{ asset('admin/assets/static/logo.svg') }}" width="110" height="32" alt="Tabler"
+                <img src="{{ asset(config('settings.site_logo')) }}" width="110" height="32" alt=""
                     class="navbar-brand-image">
             </a>
         </h1>
@@ -556,6 +556,18 @@
                         </span>
                         <span class="nav-link-title">
                             Settings
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ sidebarItemActive(['admin.database-clear.*']) }}">
+                    <a class="nav-link" href="{{ route('admin.database-clear.index') }}">
+                        <span
+                            class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="ti ti-skull"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Database Clear
                         </span>
                     </a>
                 </li>

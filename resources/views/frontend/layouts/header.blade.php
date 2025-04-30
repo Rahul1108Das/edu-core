@@ -11,16 +11,16 @@
         <div class="row">
             <div class="col-xxl-4 col-lg-7 col-md-8 d-none d-md-block">
                 <ul class="wsus__header_left d-flex flex-wrap">
-                    <li><a href="mailto:{{ $topbar->email }}"><i class="fas fa-envelope"></i> {{ $topbar->email }}</a>
+                    <li><a href="mailto:{{ $topbar?->email }}"><i class="fas fa-envelope"></i> {{ $topbar?->email }}</a>
                     </li>
-                    <li><a href="callto:{{ $topbar->phone }}"><i class="fas fa-phone-alt"></i> {{ $topbar->phone }}</a>
+                    <li><a href="callto:{{ $topbar?->phone }}"><i class="fas fa-phone-alt"></i> {{ $topbar?->phone }}</a>
                     </li>
                 </ul>
-            </div>
+            </div>.g
             <div class="col-xxl-5 col-lg-7 d-none d-xxl-block">
                 <div class="wsus__header_center">
-                    <p><span>{{ $topbar->offer_name }}</span>{{ $topbar->offer_short_description }}<a
-                            href="{{ $topbar->offer_button_url }}">{{ $topbar->offer_button_text }}</a></p>
+                    <p><span>{{ $topbar?->offer_name }}</span>{{ $topbar?->offer_short_description }}<a
+                            href="{{ $topbar?->offer_button_url }}">{{ $topbar?->offer_button_text }}</a></p>
                 </div>
             </div>
             <div class="col-xxl-3 col-lg-5 col-md-4">
@@ -52,17 +52,17 @@
                 <ul>
                     @foreach ($categories as $category)
                         <li>
-                            <a href="javascript:;">
+                            <a href="{{ route('courses.index', ['main_category' => $category->slug]) }}">
                                 <span>
-                                    <img src="{{ asset($category->image) }}" alt="Category" class="img-fluid">
+                                    <img src="{{ asset($category?->image) }}" alt="Category" class="img-fluid">
                                 </span>
-                                {{ $category->name }}
+                                {{ $category?->name }}
                             </a>
-                            @if ($category->subCategories->count() > 0)
+                            @if ($category?->subCategories->count() > 0)
                                 <ul class="category_sub_menu">
-                                    @foreach ($category->subCategories as $subCategory)
+                                    @foreach ($category?->subCategories as $subCategory)
                                         <li><a
-                                                href="{{ route('courses.index', ['category' => $subCategory->id]) }}">{{ $subCategory->name }}</a>
+                                                href="{{ route('courses.index', ['category' => $subCategory?->id]) }}">{{ $subCategory->name }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -214,7 +214,7 @@
                                 @foreach ($customPages as $page)
                                     <li class="nav-item">
                                         <a class="nav-link"
-                                            href="{{ route('custom-page', $page->slug) }}">{{ $page->title }}</a>
+                                            href="{{ route('custom-page', $page?->slug) }}">{{ $page?->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -226,16 +226,16 @@
                                     <li class="mobile_dropdown">
                                         <a href="javascript:;">
                                             <span>
-                                                <img src="{{ asset($category->image) }}" alt="Category"
+                                                <img src="{{ asset($category?->image) }}" alt="Category"
                                                     class="img-fluid">
                                             </span>
-                                            {{ $category->name }}
+                                            {{ $category?->name }}
                                         </a>
                                         @if ($category->subCategories->count() > 0)
                                             <ul class="inner_menu">
-                                                @foreach ($category->subCategories as $subCategory)
+                                                @foreach ($category?->subCategories as $subCategory)
                                                     <li><a
-                                                            href="{{ route('courses.index', ['category' => $subCategory->id]) }}">{{ $subCategory->name }}</a>
+                                                            href="{{ route('courses.index', ['category' => $subCategory?->id]) }}">{{ $subCategory->name }}</a>
                                                     </li>
                                                 @endforeach
                                             </ul>

@@ -38,10 +38,9 @@
                             <div class="col-6">
                                 <p class="h3">Company</p>
                                 <address>
-                                    Street Address<br>
-                                    State, City<br>
-                                    Region, Postal Code<br>
-                                    ltd@example.com
+                                    {{ config('settings.site_name') }}<br>
+                                    {{ config('settings.phone') }}<br>
+                                    {{ config('settings.location') }}<br>
                                 </address>
                             </div>
                             <div class="col-6 text-end">

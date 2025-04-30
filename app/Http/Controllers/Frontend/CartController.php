@@ -27,12 +27,16 @@ class CartController extends Controller
         }
 
         
-        if(user()->enrollments()->where(['course_id' => $id])->exists()){ 
+        if(user()?->enrollments()->where(['course_id' => $id])->exists()){ 
             return response(['message' => 'Already Enrolled!'], 401);
         }    
 
         if(Cart::where(['course_id' => $id, 'user_id' => Auth::guard('web')->user()->id])->exists()){
             return response(['message' => 'Already Added!'], 401);
+        }
+
+        if(user()?->role = 'instructor'){ 
+            return response(['message' => 'Please use an user account to add the course in your cart!'], 401);
         }
 
         $course = Course::findOrFail($id);
