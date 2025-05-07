@@ -62,7 +62,7 @@
                 <div class="wsus__sign_img">
                     <img src="{{ asset('frontend/assets/images/login_img_2.jpg') }}" alt="login" class="img-fluid">
                     <a href="{{ url('/') }}">
-                        <img src="{{ asset('fronted/assets/images/logo.png') }}" alt="EduCore" class="img-fluid">
+                        <img src="{{ asset('frontend/assets/images/logo.png') }}" alt="EduCore" class="img-fluid">
                     </a>
                 </div>
             </div>

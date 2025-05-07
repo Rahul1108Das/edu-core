@@ -168,7 +168,7 @@
                                                     @endphp
                                                     <li><i class="fas fa-star"></i> <b>{{ $reviewsCount }} Reviews</b>
                                                     </li>
-                                                    <li><strong>4.7 Rating</strong></li>
+                                                    <li><strong>({{ number_format($course->reviews()->avg('rating'), 2) ?? 0 }}) Rating</strong></li>
                                                     <li>
                                                         <span><img
                                                                 src="{{ asset('frontend/assets/images/book_icon.png') }}"

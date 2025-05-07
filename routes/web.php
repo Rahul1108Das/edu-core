@@ -35,8 +35,8 @@ Route::get('/', [FrontendController::class, 'index'])->name('home');
 
 Route::get('/courses', [CoursePageController::class, 'index'])->name('courses.index');
 Route::get('/courses/{slug}', [CoursePageController::class, 'show'])->name('courses.show');
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middleware('auth');
-Route::post('/add-to-cart/{course}', [CartController::class, 'addToCart'])->name('add-to-cart')->middleware('auth');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/add-to-cart/{course}', [CartController::class, 'addToCart'])->name('add-to-cart');
 Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('remove-from-cart')->middleware('auth');
 
 Route::get('/checkout', CheckoutController::class)->name('checkout.index');

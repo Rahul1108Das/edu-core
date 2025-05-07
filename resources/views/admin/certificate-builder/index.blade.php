@@ -60,7 +60,7 @@
                                 <h3 class="card-title">Certificate Builder</h3>
                             </div>
                             <div class="card-body">
-                                <div class="certificate-body" style="background-image: url({{ asset($certificate?->background) }});"> 
+                                <div class="certificate-body" style="background-size: cover; background-image: url({{ asset($certificate?->background) }});"> 
                                     <div id="title" class="title draggable-element">{{ $certificate?->title }}</div>
                                     <div id="subtitle" class="subtitle draggable-element">{{ $certificate?->sub_title }}</div>
                                     <div id="description" class="description draggable-element">{{ $certificate?->description }}</div>

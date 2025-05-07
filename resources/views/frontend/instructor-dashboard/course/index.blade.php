@@ -2,8 +2,8 @@
 
 @section('content')
     <!--===========================
-                BREADCRUMB START
-        ============================-->
+                    BREADCRUMB START
+            ============================-->
     <section class="wsus__breadcrumb" style="background: url({{ asset(config('settings.site_breadcrumb')) }});">
         <div class="wsus__breadcrumb_overlay">
             <div class="container">
@@ -22,13 +22,13 @@
         </div>
     </section>
     <!--===========================
-                BREADCRUMB END
-        ============================-->
+                    BREADCRUMB END
+            ============================-->
 
 
     <!--===========================
-            DASHBOARD COURSE START
-        ============================-->
+                DASHBOARD COURSE START
+            ============================-->
     <section class="wsus__dashboard mt_90 xs_mt_70 pb_120 xs_pb_100">
         <div class="container">
             <div class="row">
@@ -68,7 +68,7 @@
                                                         COURSES
                                                     </th>
                                                     <th class="details">
-
+                                                        DESCRIPTION
                                                     </th>
                                                     <th class="sale">
                                                         STUDENT
@@ -108,7 +108,16 @@
                                                             <p>{{ $course->enrollments()->count() }}</p>
                                                         </td>
                                                         <td class="status">
-                                                            <p class="active">Active</p>
+                                                            @if($course->is_approved === 'approved')
+                                                                <p class="active text-uppercase">
+                                                                    {{ $course->is_approved }}</p>
+                                                            @elseif($course->is_approved === 'rejected')
+                                                                <p class="inactive text-uppercase">
+                                                                    {{ $course->is_approved }}</p>
+                                                            @else
+                                                                <p class="hold text-uppercase">
+                                                                    {{ $course->is_approved }}</p>
+                                                            @endif
                                                         </td>
                                                         <td class="action">
                                                             <a class="edit"
@@ -131,6 +140,6 @@
         </div>
     </section>
     <!--===========================
-            DASHBOARD COURSE END
-        ============================-->
+                DASHBOARD COURSE END
+            ============================-->
 @endsection

@@ -214,7 +214,6 @@
                                 data-bs-target="#collapse-{{ $chapter->id }}" aria-expanded="true"
                                 aria-controls="collapse-{{ $chapter->id }}">
                                 <b>{{ $chapter->title }}</b>
-                                <span>5/5</span>
                             </button>
                         </h2>
                         <div id="collapse-{{ $chapter->id }}" class="accordion-collapse collapse"

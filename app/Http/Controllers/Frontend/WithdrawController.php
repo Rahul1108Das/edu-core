@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderItem;
 use App\Models\Withdraw;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +13,10 @@ class WithdrawController extends Controller
 {
     function index() : View
     {
-        return view('frontend.instructor-dashboard.withdraw.index');
+        $orderItems = OrderItem::whereHas('course', function($query) {
+            $query->where('instructor_id', user()->id);
+        })->take(10)->get();   
+        return view('frontend.instructor-dashboard.withdraw.index', compact('orderItems'));
     }
 
     function requestPayoutIndex() : View

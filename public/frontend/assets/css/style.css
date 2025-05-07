@@ -14195,7 +14195,7 @@ footer {
 }
 
 .wsus__dash_course_table .status p {
-    width: 60px;
+    width: 90px;
     font-size: 13px;
     font-weight: 500;
     text-align: center;
@@ -14206,6 +14206,14 @@ footer {
 
 .wsus__dash_course_table .status .active {
     background: #159F46;
+}
+
+.wsus__dash_course_table .status .inactive {
+    background: #ff0000;
+}
+
+.wsus__dash_course_table .status .hold {
+    background: #fffb00;
 }
 
 .wsus__dash_course_table .status .Pending {

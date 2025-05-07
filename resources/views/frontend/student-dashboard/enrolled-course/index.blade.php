@@ -2,8 +2,8 @@
 
 @section('content')
     <!--===========================
-                BREADCRUMB START
-            ============================-->
+                    BREADCRUMB START
+                ============================-->
     <section class="wsus__breadcrumb" style="background: url({{ asset(config('settings.site_breadcrumb')) }});">
         <div class="wsus__breadcrumb_overlay">
             <div class="container">
@@ -22,13 +22,13 @@
         </div>
     </section>
     <!--===========================
-                BREADCRUMB END
-            ============================-->
+                    BREADCRUMB END
+                ============================-->
 
 
     <!--===========================
-                DASHBOARD OVERVIEW START
-            ============================-->
+                    DASHBOARD OVERVIEW START
+                ============================-->
     <section class="wsus__dashboard mt_90 xs_mt_70 pb_120 xs_pb_100">
         <div class="container">
             <div class="row">
@@ -53,52 +53,74 @@
                                                         COURSES
                                                     </th>
                                                     <th class="details">
-
+                                                        DESCRIPTION
+                                                    </th>
+                                                    <th class="action">
+                                                        STATUS
                                                     </th>
                                                     <th class="action">
                                                         ACTION
                                                     </th>
                                                 </tr>
                                                 @forelse ($enrollments as $enrollment)
-                                                <tr>
-                                                    <td class="image">
-                                                        <div class="image_category">
-                                                            <img src="{{ asset($enrollment->course->thumbnail) }}" alt="img"
-                                                                class="img-fluid w-100">
-                                                        </div>
-                                                    </td>
-                                                    <td class="details">
-                                                        <p class="rating">
-                                                            <i class="fas fa-star" aria-hidden="true"></i>
-                                                            <i class="fas fa-star" aria-hidden="true"></i>
-                                                            <i class="fas fa-star" aria-hidden="true"></i>
-                                                            <i class="fas fa-star-half-alt" aria-hidden="true"></i>
-                                                            <i class="far fa-star" aria-hidden="true"></i>
-                                                            <span>(5.0)</span>
-                                                        </p>
-                                                        <a class="title" href="{{ route('student.course-player.index', $enrollment->course->slug) }}">{{ $enrollment->course->title }}</a>
-                                                        <div class="text-muted">
-                                                            By {{ $enrollment->course->instructor->name }}
-                                                        </div>
+                                                    <tr>
+                                                        <td class="image">
+                                                            <div class="image_category">
+                                                                <img src="{{ asset($enrollment->course->thumbnail) }}"
+                                                                    alt="img" class="img-fluid w-100">
+                                                            </div>
+                                                        </td>
+                                                        <td class="details">
+                                                            <p class="rating">
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    @if ($i <= $enrollment->course->reviews()->avg('rating'))
+                                                                        <i class="fas fa-star"></i>
+                                                                    @else
+                                                                        <i class="far fa-star"></i>
+                                                                    @endif
+                                                                @endfor
 
-                                                        @php
-                                                            $watchedLessonCount = \App\Models\WatchHistory::where(['user_id' => user()->id, 'course_id' => $enrollment->course->id, 'is_completed' => 1])->count();
-                                                            $lessonCount = $enrollment->course->lessons()->count();
-                                                        @endphp
+                                                                <span>({{ number_format($enrollment->course->reviews()->avg('rating'), 2) ?? 0 }}
+                                                                    Rating)</span>
+                                                            </p>
+                                                            <a class="title"
+                                                                href="{{ route('student.course-player.index', $enrollment->course->slug) }}">{{ $enrollment->course->title }}</a>
+                                                            <div class="text-muted">
+                                                                By {{ $enrollment->course->instructor->name }}
+                                                            </div>
 
-                                                        @if ($lessonCount == $watchedLessonCount)
-                                                        <a target="_blank" href="{{ route('student.certificate.download', $enrollment->course->id) }}" class="btn btn-sm btn-warning">Download Certificate</a>                                                            
-                                                        @endif
+                                                            @php
+                                                                $watchedLessonCount = \App\Models\WatchHistory::where([
+                                                                    'user_id' => user()->id,
+                                                                    'course_id' => $enrollment->course->id,
+                                                                    'is_completed' => 1,
+                                                                ])->count();
+                                                                $lessonCount = $enrollment->course->lessons()->count();
+                                                            @endphp
 
-                                                    </td>
-                                                    <td class="status">
-                                                        <p class="active">Active</p>
-                                                    </td>
-                                                    <td class="">
-                                                        <a class="common_btn" href="{{ route('student.course-player.index', $enrollment->course->slug) }}">Watch course</a>
-                                                    </td>
-                                                </tr>
-                                                    
+                                                            @if ($lessonCount == $watchedLessonCount)
+                                                                <a target="_blank"
+                                                                    href="{{ route('student.certificate.download', $enrollment->course->id) }}"
+                                                                    class="btn btn-sm btn-warning">Download Certificate</a>
+                                                            @endif
+
+                                                        </td>
+                                                        <td class="status">
+                                                            @if($enrollment->course->status === 'active')
+                                                                <p class="active text-uppercase">
+                                                                    {{ $enrollment->course->status }}</p>
+                                                            @else
+                                                                <p class="inactive text-uppercase">
+                                                                    {{ $enrollment->course->status }}</p>
+                                                            @endif
+                                                        </td>
+                                                        <td class="">
+                                                            <a class="common_btn"
+                                                                href="{{ route('student.course-player.index', $enrollment->course->slug) }}">Watch
+                                                                course</a>
+                                                        </td>
+                                                    </tr>
+
                                                 @empty
                                                     <tr>
                                                         <td colspan="5" class="text-center">No Data found!</td>
@@ -116,6 +138,6 @@
         </div>
     </section>
     <!--===========================
-                DASHBOARD OVERVIEW END
-            ============================-->
+                    DASHBOARD OVERVIEW END
+                ============================-->
 @endsection

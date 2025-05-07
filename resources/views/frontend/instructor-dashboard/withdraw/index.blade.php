@@ -2,8 +2,8 @@
 
 @section('content')
     <!--===========================
-        BREADCRUMB START
-    ============================-->
+            BREADCRUMB START
+        ============================-->
     <section class="wsus__breadcrumb" style="background: url({{ asset(config('settings.site_breadcrumb')) }});">
         <div class="wsus__breadcrumb_overlay">
             <div class="container">
@@ -22,13 +22,13 @@
         </div>
     </section>
     <!--===========================
-        BREADCRUMB END
-    ============================-->
+            BREADCRUMB END
+        ============================-->
 
 
     <!--===========================
-        DASHBOARD OVERVIEW START
-    ============================-->
+            DASHBOARD OVERVIEW START
+        ============================-->
     <section class="wsus__dashboard mt_90 xs_mt_70 pb_120 xs_pb_100">
         <div class="container">
             <div class="row">
@@ -39,7 +39,8 @@
                             <div class="wsus__dashboard_heading relative">
                                 <h5>Withdrawals</h5>
                                 <p>Manage your payouts here.</p>
-                                <a class="common_btn" href="{{ route('instructor.withdraw.request-payout') }}">+ Request Payout</a>
+                                <a class="common_btn" href="{{ route('instructor.withdraw.request-payout') }}">+ Request
+                                    Payout</a>
                             </div>
                         </div>
                         <table class="table">
@@ -51,19 +52,21 @@
                                 <th>Earning</th>
                             </thead>
                             <tbody>
-                                {{-- @forelse ($orderItems as $orderItem)
+                                @forelse ($orderItems as $orderItem)
                                     <tr>
                                         <td>{{ $orderItem->course->title }}</td>
                                         <td>{{ $orderItem->order->customer->name }}</td>
-                                        <td>{{ $orderItem->course->discount > 0 ? $orderItem->course->discount : $orderItem->course->price }}</td>
+                                        <td>{{ $orderItem->course->discount > 0 ? $orderItem->course->discount : $orderItem->course->price }}
+                                        </td>
                                         <td>{{ $orderItem->commission_rate ?? 0 }}%</td>
-                                        <td>{{ calculateCommission($orderItem->course->discount > 0 ? $orderItem->course->discount : $orderItem->course->price, $orderItem->commission_rate) }} {{ $orderItem->order->currency }}</td>
+                                        <td>{{ calculateCommission($orderItem->course->discount > 0 ? $orderItem->course->discount : $orderItem->course->price, $orderItem->commission_rate) }}
+                                            {{ $orderItem->order->currency }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td>No Data Found</td>
+                                        <td class="text-center" colspan="5">No Data Found</td>
                                     </tr>
-                                @endforelse --}}
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -72,6 +75,6 @@
         </div>
     </section>
     <!--===========================
-        DASHBOARD OVERVIEW END
-    ============================-->
+            DASHBOARD OVERVIEW END
+        ============================-->
 @endsection

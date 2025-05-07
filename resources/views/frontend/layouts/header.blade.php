@@ -16,7 +16,7 @@
                     <li><a href="callto:{{ $topbar?->phone }}"><i class="fas fa-phone-alt"></i> {{ $topbar?->phone }}</a>
                     </li>
                 </ul>
-            </div>.g
+            </div>
             <div class="col-xxl-5 col-lg-7 d-none d-xxl-block">
                 <div class="wsus__header_center">
                     <p><span>{{ $topbar?->offer_name }}</span>{{ $topbar?->offer_short_description }}<a
@@ -87,11 +87,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('contact.index') }}">Contact us</a>
                 </li>
-                @foreach ($customPages as $page)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('custom-page', $page->slug) }}">{{ $page->title }}</a>
-                    </li>
-                @endforeach
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Extra's <i class="far fa-angle-down"></i></a>
+                    @if ($customPages?->count() > 0)
+                        <ul class="droap_menu">
+                            @foreach ($customPages as $page)
+                                <li><a href="{{ route('custom-page', $page->slug) }}">{{ $page->title }}</a></li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </li>
             </ul>
 
             <div class="right_menu">
@@ -105,22 +110,26 @@
                                 <img src="{{ asset('frontend/assets/images/cart_icon_black.png') }}" alt="cart"
                                     class="img-fluid">
                             </span>
-                            <b>{{ cartCount() }}</b>
+                            @auth
+                                <b>{{ cartCount() }}</b>
+                            @endauth
                         </a>
                     </li>
-                    @if (!auth()->guard('web')->check())
-                        <li>
-                            <a class="admin" href="{{ route('admin.login') }}">
-                                <span>
-                                    <img src="{{ asset('frontend/assets/images/user_icon_black.png') }}" alt="user"
-                                        class="img-fluid">
-                                </span>
-                                admin
-                            </a>
-                        </li>
-                        <li>
-                            <a class="common_btn" href="{{ route('login') }}">Sign In</a>
-                        </li>
+                    @guest
+                        @if (!auth()->guard('web')->check())
+                            <li>
+                                <a class="admin" href="{{ route('admin.login') }}">
+                                    <span>
+                                        <img src="{{ asset('frontend/assets/images/user_icon_black.png') }}" alt="user"
+                                            class="img-fluid">
+                                    </span>
+                                    admin
+                                </a>
+                            </li>
+                            <li>
+                                <a class="common_btn" href="{{ route('login') }}">Sign In</a>
+                            </li>
+                        @endguest
                     @endif
                     @if (user()?->role == 'student')
                         <li>
@@ -211,12 +220,16 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('contact.index') }}">Contact us</a>
                                 </li>
-                                @foreach ($customPages as $page)
-                                    <li class="nav-item">
-                                        <a class="nav-link"
-                                            href="{{ route('custom-page', $page?->slug) }}">{{ $page?->title }}</a>
-                                    </li>
-                                @endforeach
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Extra's <i class="far fa-angle-down"></i></a>
+                                    <ul class="droap_menu">
+                                        @foreach ($customPages as $page)
+                                            <li><a
+                                                    href="{{ route('custom-page', $page->slug) }}">{{ $page->title }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel"

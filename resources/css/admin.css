@@ -136,9 +136,10 @@ input, select, textarea {
 {
     height: 600px;
     width: 780px;
-    background-color: gray;
+    background-color: white;
     background-repeat: no-repeat;
     text-align: center;
+   
 }
 
 .certificate-body div

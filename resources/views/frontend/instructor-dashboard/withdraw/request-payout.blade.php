@@ -69,11 +69,11 @@
                                     <table class="table table-bordered">
                                         <tr>
                                             <td><b>Gateway</b></td>
-                                             <td>{{ user()?->gatewayInfo->gateway }}</td>
+                                             <td>{{ user()->gatewayInfo?->gateway }}</td>
                                         </tr>
                                         <tr>
                                             <td><b>Information</b></td>
-                                            <td>{!! user()?->gatewayInfo->information !!}</td>
+                                            <td>{!! user()->gatewayInfo?->information !!}</td>
                                         </tr>
                                     </table>
                                     <hr>

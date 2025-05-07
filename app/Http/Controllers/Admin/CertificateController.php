@@ -30,7 +30,12 @@ class CertificateController extends Controller
         $html = str_replace("[platform_name]", 'Edu Core', $html);
         $html = str_replace("[instructor_name]", $course->instructor->name, $html);
 
-        $pdf = Pdf::loadHTML ($html)->setPaper('a4', 'landscape');
+        // $pdf = Pdf::loadHTML($html);
+        // $pdf->setPaper([0, 0, 780, 600], 'landscape');
+        // return $pdf->download('certificate.pdf');
+        
+
+        $pdf = Pdf::loadHTML($html)->setPaper('letter', 'landscape');
         return $pdf->download('certificate.pdf');
     }
 }

@@ -197,7 +197,7 @@
                                 </div>
                                 <div class="wsus__single_courses_3_footer">
                                     <a class="common_btn add_to_cart" data-course-id="{{ $course->id }}"
-                                        href="#">Add to Cart <i class="far fa-arrow-right"></i></a>
+                                        href="javascript:;">Add to Cart <i class="far fa-arrow-right"></i></a>
                                     <p>
                                         @if ($course->discount > 0)
                                             <del>${{ $course->price }}</del>

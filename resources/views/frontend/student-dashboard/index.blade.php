@@ -103,8 +103,8 @@
                                         <td><a href="{{ route('student.orders.show', $order->id) }}">view</a></td>
                                     </tr>
                                 @empty
-                                    <tr>
-                                        <td>No Data Found</td>
+                                    <tr class="text-center">
+                                        <td colspan="5">No Data Found</td>
                                     </tr>
                                 @endforelse
                             </tbody>

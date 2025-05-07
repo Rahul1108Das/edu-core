@@ -9,9 +9,9 @@
     <title>Certificate</title>
     <style>
         .certificate-body {
-            width: 930px !important;
+            width: 780px !important;
             height: 600px !important;
-            background-color: gray;
+            background-color: white !important;
             background-repeat: no-repeat;
             text-align: center;
         }
@@ -22,7 +22,7 @@
         }
 
         @page {
-            size: 930px 600px;
+            size: 780px 600px !important;
             margin: 0;
         }
 
