@@ -42,28 +42,52 @@ class RedirectIfAuthenticated
     {
         return static::$redirectToCallback
             ? call_user_func(static::$redirectToCallback, $request)
-            : $this->defaultRedirectUri($guard);
+            : $this->defaultRedirectUri($request, $guard);
     }
 
     /**
      * Get the default URI the user should be redirected to when they are authenticated.
      */
-    protected function defaultRedirectUri(?string $guard): string
+    protected function defaultRedirectUri(Request $request, ?string $guard): string
     {
 
-        $routes = [
-            'admin' => 'admin.dashboard',
-            'web' => 'dashboard'
-        ];
-
-        if(array_key_exists($guard, $routes)){
-            $routeName = $routes[$guard];
-            if(Route::has($routeName)){
-                return route($routeName);
+        if ($guard == 'admin') {
+            $routeName = 'admin.dashboard';
+        }else if ($guard == 'web') {
+            if ($request->user()->role == 'student') {
+                $routeName = 'student.dashboard';
+            } else {
+                $routeName = 'instructor.dashboard';
             }
         }
 
-        // foreach (['admin.dashboard', 'home'] as $uri) {
+        if (Route::has($routeName)) {
+            return route($routeName);
+        }
+
+        return '/';
+
+        /** ------------------------------------------- */
+        /** Initial */
+        /** ------------------------------------------- */
+
+        // $routes = [
+        //     'admin' => 'admin.dashboard',
+        //     'web' => 'dashboard'
+        // ];
+
+        // if(array_key_exists($guard, $routes)){
+        //     $routeName = $routes[$guard];
+        //     if(Route::has($routeName)){
+        //         return route($routeName);
+        //     }
+        // }
+
+        /** ------------------------------------------- */
+        /** Default */
+        /** ------------------------------------------- */
+
+        // foreach (['dashboard', 'home'] as $uri) {
         //     if (Route::has($uri)) {
         //         return route($uri);
         //     }
@@ -76,8 +100,6 @@ class RedirectIfAuthenticated
         //         return '/'.$uri;
         //     }
         // }
-
-        return '/';
     }
 
     /**

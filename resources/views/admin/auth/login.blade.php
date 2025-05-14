@@ -77,14 +77,14 @@
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
           <a href="." class="navbar-brand navbar-brand-autodark">
-            <img src="{{ asset('admin/assets/static/logo.svg') }}" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+            <img src="{{ asset('frontend/assets/images/preloader.png') }}" width="110" height="32" alt="Tabler" class="navbar-brand-image">
           </a>
         </div>
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
         <div class="card card-md">
           <div class="card-body">
-            <h2 class="h2 text-center mb-4">Login to your account</h2>
+            <h2 class="h2 text-center mb-4">Admin Login</h2>
             <form action="{{ route('admin.login.store') }}" method="POST" autocomplete="off" novalidate>
               @csrf
               <div class="mb-3">

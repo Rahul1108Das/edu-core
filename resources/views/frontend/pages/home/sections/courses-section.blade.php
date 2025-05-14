@@ -124,7 +124,7 @@
                     </div>
                     <div class="row mt_60 wow fadeInUp">
                         <div class="col-12 text-center">
-                            <a class="common_btn" href="#">Browse More Courses <i
+                            <a class="common_btn" href="{{ route('courses.index') }}">Browse More Courses <i
                                     class="far fa-angle-right"></i></a>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
                     </div>
                     <div class="row mt_60 wow fadeInUp">
                         <div class="col-12 text-center">
-                            <a class="common_btn" href="#">Browse More Courses <i
+                            <a class="common_btn" href="{{ route('courses.index') }}">Browse More Courses <i
                                     class="far fa-angle-right"></i></a>
                         </div>
                     </div>
